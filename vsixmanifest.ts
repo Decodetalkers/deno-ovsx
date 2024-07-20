@@ -24,7 +24,7 @@ export function genXmlvsixMinifest(
     `extension/${icon}` || "",
   );
   metadata.set_tags(tags);
-  const propertys = [
+  const properties = [
     new PropertyEngine(engine),
     new PropertyExtensionPack(),
     new PropertyExtensionKind("workspace"),
@@ -32,13 +32,13 @@ export function genXmlvsixMinifest(
   ];
   if (url && url.type == "git") {
     const link = url.url + ".git";
-    propertys.push(new PropertyLinksSource(link));
-    propertys.push(new PropertyLinksGetStart(link));
-    propertys.push(new PropertyLinksGithub(link));
-    propertys.push(new PropertyLinksSupport(link));
-    propertys.push(new PropertyLinksLearn(link));
+    properties.push(new PropertyLinksSource(link));
+    properties.push(new PropertyLinksGetStart(link));
+    properties.push(new PropertyLinksGithub(link));
+    properties.push(new PropertyLinksSupport(link));
+    properties.push(new PropertyLinksLearn(link));
   }
-  metadata.set_properties(propertys);
+  metadata.set_properties(properties);
   metadata.set_categrates(categories || []);
   const asserts = [new AssertManifest("extension/package.json", true)];
   if (icon) {
@@ -87,7 +87,7 @@ export const PropertyEngine: typeof PropertyExtensionPack = PropertyTemplate(
   "Microsoft.VisualStudio.Code.Engine",
 );
 
-export const PropertyExtensionDepdencies: typeof PropertyExtensionPack =
+export const PropertyExtensionDependencies: typeof PropertyExtensionPack =
   PropertyTemplate(
     " Microsoft.VisualStudio.Code.ExtensionDependencies",
   );

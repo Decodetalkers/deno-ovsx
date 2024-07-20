@@ -12,7 +12,7 @@ export {
   Identify,
   PackageManifest,
   PropertyEngine,
-  PropertyExtensionDepdencies,
+  PropertyExtensionDependencies,
   PropertyExtensionKind,
   PropertyExtensionPack,
   PropertyLinksGetStart,
