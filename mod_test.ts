@@ -3,7 +3,7 @@ import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./content_types.ts";
 import { dirReader } from "./json_reader.ts";
 import { resolve } from "jsr:@std/path@^1.0.1/resolve";
-import { genXmlvisxMinifest } from "./vsixmanifest.ts";
+import { genXmlvsixMinifest } from "./vsixmanifest.ts";
 
 Deno.test(function xmlcontentTest() {
   const data = `<?xml version="1.0" encoding="UTF-8"?>
@@ -21,7 +21,7 @@ Deno.test(function xmlcontentTest() {
   assertEquals(data, xml.stringify(XMLContentTypesDefault as any));
 });
 
-Deno.test(async function XmlVisxMinifestTest() {
+Deno.test(async function XmlVsixMinifestTest() {
   const data = `<?xml version="1.0" encoding="UTF-8"?>
 <PackageManifest version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
@@ -58,5 +58,5 @@ Deno.test(async function XmlVisxMinifestTest() {
     new URL("file://" + resolve("./test/")),
   );
   // deno-lint-ignore no-explicit-any
-  assertEquals(data, xml.stringify(genXmlvisxMinifest(reader!) as any));
+  assertEquals(data, xml.stringify(genXmlvsixMinifest(reader!) as any));
 });

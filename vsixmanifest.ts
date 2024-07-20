@@ -1,6 +1,6 @@
 import type { JsonInfo } from "./json_reader.ts";
 
-export function genXmlvisxMinifest(
+export function genXmlvsixMinifest(
   {
     name,
     description,

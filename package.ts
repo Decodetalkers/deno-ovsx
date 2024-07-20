@@ -10,7 +10,7 @@ import { walk } from "@std/fs";
 import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./content_types.ts";
 import { dirReader } from "./json_reader.ts";
-import { genXmlvisxMinifest } from "./vsixmanifest.ts";
+import { genXmlvsixMinifest } from "./vsixmanifest.ts";
 const excludeDirs = [/\/src$/, /\/node_modules$/];
 
 const CONTENT_TYPES_FILE = "[Content_Types].xml";
@@ -34,7 +34,7 @@ export async function makeVisxPackage(dir_entry: string, target_file: string) {
   );
 
   // deno-lint-ignore no-explicit-any
-  const xmlVisxData = xml.stringify(genXmlvisxMinifest(xmlreader!) as any);
+  const xmlVisxData = xml.stringify(genXmlvsixMinifest(xmlreader!) as any);
   const xmlVisxReader = new TextReader(xmlVisxData);
 
   zipWriter.add(VISX_MANIFEST, xmlVisxReader);
@@ -57,7 +57,6 @@ async function walkFileFilited(dir: string, zipWriter: ZipWriter) {
       const data = await Deno.readFile(entry.path);
       const fileReader = new Uint8ArrayReader(data);
 
-      console.log(entry.name);
       if (entry.name == "vscode_package.json") {
         await zipWriter.add(`extension/package.json`, fileReader);
       } else {
@@ -67,6 +66,6 @@ async function walkFileFilited(dir: string, zipWriter: ZipWriter) {
   }
 }
 
-await makeVisxPackage("./test", "hello.visx");
+await makeVisxPackage("./test", "hello.vsix");
 
 //walkFileFilited("./test");
