@@ -1,0 +1,11 @@
+{
+  "name": "deno_ovsx",
+  "version": "1.0.0",
+  "exports": "./mod.ts",
+  "tasks": {
+    "dev": "deno test --watch mod.ts"
+  },
+  "imports": {
+    "@libs/xml": "jsr:@libs/xml@^5.4.12"
+  }
+}

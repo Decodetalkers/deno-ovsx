@@ -1,0 +1,37 @@
+{
+  "version": "3",
+  "packages": {
+    "specifiers": {
+      "jsr:@libs/typing@2": "jsr:@libs/typing@2.8.0",
+      "jsr:@libs/xml@^5.4.12": "jsr:@libs/xml@5.4.12",
+      "jsr:@std/assert": "jsr:@std/assert@1.0.0",
+      "jsr:@std/internal@^1.0.1": "jsr:@std/internal@1.0.1"
+    },
+    "jsr": {
+      "@libs/typing@2.8.0": {
+        "integrity": "92cb68fe9798fee525e810423c2346ee42a11b3d9955432c6a1d8e93a262aa39"
+      },
+      "@libs/xml@5.4.12": {
+        "integrity": "57f0d480a40ba490c1f5efffda8f7bcf79812a351cdf014375093c6ec306c53d",
+        "dependencies": [
+          "jsr:@libs/typing@2"
+        ]
+      },
+      "@std/assert@1.0.0": {
+        "integrity": "0e4f6d873f7f35e2a1e6194ceee39686c996b9e5d134948e644d35d4c4df2008",
+        "dependencies": [
+          "jsr:@std/internal@^1.0.1"
+        ]
+      },
+      "@std/internal@1.0.1": {
+        "integrity": "6f8c7544d06a11dd256c8d6ba54b11ed870aac6c5aeafff499892662c57673e6"
+      }
+    }
+  },
+  "remote": {},
+  "workspace": {
+    "dependencies": [
+      "jsr:@libs/xml@^5.4.12"
+    ]
+  }
+}
