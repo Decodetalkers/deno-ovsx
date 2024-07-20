@@ -1,5 +1,5 @@
 {
-  "name": "@nobody/deno_ovsx",
+  "name": "@nobody/deno-ovsx",
   "version": "0.1.0",
   "exports": {
     ".": "./mod.ts",
