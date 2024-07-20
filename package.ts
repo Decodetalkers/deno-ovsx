@@ -15,7 +15,7 @@ import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./content_types.ts";
 import { projectDirReader } from "./json_reader.ts";
 import { genXmlvsixMinifest } from "./vsixmanifest.ts";
-const excludeDirs = [/\/src$/, /\/node_modules$/];
+const excludeDirs = [/\/src$/, /\/node_modules$/, /src$/, /node_modules$/];
 
 const CONTENT_TYPES_FILE = "[Content_Types].xml";
 
