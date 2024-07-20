@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "exports": "./mod.ts",
   "tasks": {
-    "dev": "deno test --watch mod.ts"
+    "dev": "deno test --watch mod.ts",
+    "unit_test": "deno test --allow-read"
   },
   "imports": {
     "@libs/xml": "jsr:@libs/xml@^5.4.12",

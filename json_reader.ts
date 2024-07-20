@@ -47,7 +47,6 @@ export async function dirReader(dir_path: URL) {
     "file://" +
       path.join(dir_path.pathname, LICENSE),
   );
-  console.log(license_path);
   if (await exists(license_path)) {
     info.contains_license = true;
   }
@@ -55,7 +54,6 @@ export async function dirReader(dir_path: URL) {
 }
 
 export async function jsonReader(path: URL): Promise<JsonInfo | undefined> {
-  console.log(path);
   const response = await fetch(path);
   if (!response.ok) {
     return undefined;
