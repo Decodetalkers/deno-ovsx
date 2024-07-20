@@ -1,7 +1,10 @@
 {
   "name": "deno_ovsx",
   "version": "1.0.0",
-  "exports": "./mod.ts",
+  "exports": {
+    ".": "./mod.ts",
+    "bin": "./bin.ts"
+  },
   "tasks": {
     "dev": "deno test --watch mod.ts",
     "unit_test": "deno test --allow-read"

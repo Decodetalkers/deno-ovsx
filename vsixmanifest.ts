@@ -77,7 +77,7 @@ export class PropertyExtensionPack implements PropertyInterface {
   }
 }
 
-function PropertyTemplate(id: string) {
+function PropertyTemplate(id: string): typeof PropertyExtensionPack {
   return class extends PropertyExtensionPack {
     "@Id" = id;
   };
@@ -205,7 +205,7 @@ export class AssertManifest implements Assert {
   }
 }
 
-export function AssertTemplate(tp: string) {
+export function AssertTemplate(tp: string): typeof AssertManifest {
   return class extends AssertManifest {
     readonly "@Type": string = tp;
   };

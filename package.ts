@@ -9,7 +9,7 @@ import * as path from "@std/path";
 import { walk } from "@std/fs";
 import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./content_types.ts";
-import { dirReader } from "./json_reader.ts";
+import { projectDirReader } from "./json_reader.ts";
 import { genXmlvsixMinifest } from "./vsixmanifest.ts";
 const excludeDirs = [/\/src$/, /\/node_modules$/];
 
@@ -29,7 +29,7 @@ export async function makeVisxPackage(dir_entry: string, target_file: string) {
 
   zipWriter.add(CONTENT_TYPES_FILE, contentTypeReader);
 
-  const xmlreader = await dirReader(
+  const xmlreader = await projectDirReader(
     new URL("file://" + path.resolve(dir_entry)),
   );
 
@@ -65,7 +65,3 @@ async function walkFileFilited(dir: string, zipWriter: ZipWriter) {
     }
   }
 }
-
-await makeVisxPackage("./test", "hello.vsix");
-
-//walkFileFilited("./test");

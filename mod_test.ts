@@ -1,7 +1,7 @@
 import { assertEquals } from "jsr:@std/assert";
 import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./content_types.ts";
-import { dirReader } from "./json_reader.ts";
+import { projectDirReader } from "./json_reader.ts";
 import { resolve } from "jsr:@std/path@^1.0.1/resolve";
 import { genXmlvsixMinifest } from "./vsixmanifest.ts";
 
@@ -54,7 +54,7 @@ Deno.test(async function XmlVsixMinifestTest() {
     <Assert Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE" Addressable="true"/>
   </Asserts>
 </PackageManifest>`;
-  const reader = await dirReader(
+  const reader = await projectDirReader(
     new URL("file://" + resolve("./test/")),
   );
   // deno-lint-ignore no-explicit-any
