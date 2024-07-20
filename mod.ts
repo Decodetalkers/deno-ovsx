@@ -1,4 +1,7 @@
 export { makeVisxPackage } from "./package.ts";
+
+export type { PackageInfo } from "./package.ts";
+
 export {
   AssertDetails,
   AssertIconDefault,

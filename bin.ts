@@ -27,5 +27,10 @@ if (input_args.help) {
 
 if (input_args.build) {
   const path = input_args.path || "./";
-  await makeVisxPackage(path);
+  const packageInfo = await makeVisxPackage(path);
+
+  console.log(packageInfo.fileName);
+  for (const entry of packageInfo.entries) {
+    console.log(`   ${entry.filename}`);
+  }
 }
