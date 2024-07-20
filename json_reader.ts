@@ -1,3 +1,11 @@
+import * as path from "@std/path";
+
+import { exists } from "@std/fs";
+
+const PACKAGE_JSON_NAME = "vscode_package.json";
+const README = "README.md";
+const LICENSE = "LICENSE";
+
 interface Languages {
   id: string;
   extensions?: string[];
@@ -21,9 +29,33 @@ export interface JsonInfo {
   engine: string;
   main: string;
   tags: string[];
+  contains_readme: boolean;
+  contains_license: boolean;
+}
+
+export async function dirReader(dir_path: URL) {
+  const json_path = path.join(dir_path.pathname, PACKAGE_JSON_NAME);
+  const info = await jsonReader(new URL("file://" + json_path));
+  if (!info) {
+    return info;
+  }
+  const readme_path = new URL("file://" + path.join(dir_path.pathname, README));
+  if (await exists(readme_path)) {
+    info.contains_readme = true;
+  }
+  const license_path = new URL(
+    "file://" +
+      path.join(dir_path.pathname, LICENSE),
+  );
+  console.log(license_path);
+  if (await exists(license_path)) {
+    info.contains_license = true;
+  }
+  return info;
 }
 
 export async function jsonReader(path: URL): Promise<JsonInfo | undefined> {
+  console.log(path);
   const response = await fetch(path);
   if (!response.ok) {
     return undefined;
@@ -68,5 +100,7 @@ export function packageMainData(data: any): JsonInfo | undefined {
     engine,
     main,
     tags,
+    contains_readme: false,
+    contains_license: false,
   };
 }

@@ -1,6 +1,6 @@
 import type { JsonInfo } from "./json_reader.ts";
 
-export function gen_xmlvisxMinifest(
+export function genXmlvisxMinifest(
   {
     name,
     description,
@@ -12,6 +12,8 @@ export function gen_xmlvisxMinifest(
     url,
     engine,
     tags,
+    contains_readme,
+    contains_license,
   }: JsonInfo,
 ): XMlVisxManifest {
   const identifier = new Identify(name, version, publisher);
@@ -39,7 +41,19 @@ export function gen_xmlvisxMinifest(
   }
   metadata.set_properties(propertys);
   metadata.set_categrates(categories || []);
-  return new XMlVisxManifest(new PackageManifest(metadata));
+  const asserts = [new AssertManifest("extension/vscode_package.json", true)];
+  if (icon) {
+    asserts.push(new AssertIconDefault(`extension/${icon}`, true));
+  }
+  if (contains_license) {
+    asserts.push(new AssertLicense("extension/LICENSE", true));
+  }
+  if (contains_readme) {
+    asserts.push(new AssertDetails("extension/README.txt", true));
+  }
+  const minifest = new PackageManifest(metadata);
+  minifest.set_asserts(asserts);
+  return new XMlVisxManifest(minifest);
 }
 
 export class XMlVisxManifest {
@@ -174,25 +188,25 @@ export const InstallationTargetDefault: InstallationTarget = {
 };
 
 export interface Assert {
-  "Type": string;
-  Path: string;
-  Addressable: boolean;
+  "@Type": string;
+  "@Path": string;
+  "@Addressable": boolean;
 }
 
 export class AssertManifest implements Assert {
-  readonly "Type": string = "Microsoft.VisualStudio.Code.Manifest";
-  Path: string;
-  Addressable: boolean;
+  readonly "@Type": string = "Microsoft.VisualStudio.Code.Manifest";
+  "@Path": string;
+  "@Addressable": boolean;
 
   constructor(path: string, addressable: boolean) {
-    this.Path = path;
-    this.Addressable = addressable;
+    this["@Path"] = path;
+    this["@Addressable"] = addressable;
   }
 }
 
 export function AssertTemplate(tp: string) {
   return class extends AssertManifest {
-    readonly "Type": string = tp;
+    readonly "@Type": string = tp;
   };
 }
 
@@ -220,5 +234,8 @@ export class PackageManifest {
   Assert: Assert[] = [];
   constructor(metaData: Metadata) {
     this["Metadata"] = metaData;
+  }
+  set_asserts(asserts: Assert[]) {
+    this.Assert = asserts;
   }
 }

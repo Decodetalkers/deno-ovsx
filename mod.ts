@@ -5,8 +5,8 @@ import {
   PackageManifest,
   XMlVisxManifest,
 } from "./vsixmanifest.ts";
-import { jsonReader } from "./json_reader.ts";
-import { gen_xmlvisxMinifest } from "./vsixmanifest.ts";
+import { dirReader } from "./json_reader.ts";
+import { genXmlvisxMinifest } from "./vsixmanifest.ts";
 import { resolve } from "@std/path";
 
 export function add(a: number, b: number): number {
@@ -33,9 +33,9 @@ const xmltop = new XMlVisxManifest(manifest);
 // deno-lint-ignore no-explicit-any
 console.log(xml.stringify(xmltop as any));
 
-const reader = await jsonReader(
-  new URL("file://" + resolve("./test_pacakge.json")),
+const reader = await dirReader(
+  new URL("file://" + resolve("./test/")),
 );
 
 // deno-lint-ignore no-explicit-any
-console.log(xml.stringify(gen_xmlvisxMinifest(reader!) as any));
+console.log(xml.stringify(genXmlvisxMinifest(reader!) as any));
