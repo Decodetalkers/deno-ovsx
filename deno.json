@@ -6,6 +6,7 @@
     "dev": "deno test --watch mod.ts"
   },
   "imports": {
-    "@libs/xml": "jsr:@libs/xml@^5.4.12"
+    "@libs/xml": "jsr:@libs/xml@^5.4.12",
+    "@std/path": "jsr:@std/path@^1.0.1"
   }
 }

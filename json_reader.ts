@@ -29,6 +29,11 @@ export async function jsonReader(path: URL): Promise<JsonInfo | undefined> {
     return undefined;
   }
   const data = await response.json();
+  return packageMainData(data);
+}
+
+// deno-lint-ignore no-explicit-any
+export function packageMainData(data: any): JsonInfo | undefined {
   const name = data["name"] as string;
   const description = data["description"] as string;
   const author = data["author"] as string;

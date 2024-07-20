@@ -1,3 +1,47 @@
+import type { JsonInfo } from "./json_reader.ts";
+
+export function gen_xmlvisxMinifest(
+  {
+    name,
+    description,
+    license,
+    version,
+    publisher,
+    icon,
+    categories,
+    url,
+    engine,
+    tags,
+  }: JsonInfo,
+): XMlVisxManifest {
+  const identifier = new Identify(name, version, publisher);
+  const metadata = new Metadata(
+    identifier,
+    name,
+    description,
+    license,
+    icon || "",
+  );
+  metadata.set_tags(tags);
+  const propertys = [
+    new PropertyEngine(engine),
+    new PropertyExtensionPack(),
+    new PropertyExtensionKind("workspace"),
+    new PropertyLocalizedLanguages(),
+  ];
+  if (url && url.type == "git") {
+    const link = url.url + ".git";
+    propertys.push(new PropertyLinksSource(link));
+    propertys.push(new PropertyLinksGetStart(link));
+    propertys.push(new PropertyLinksGithub(link));
+    propertys.push(new PropertyLinksSupport(link));
+    propertys.push(new PropertyLinksLearn(link));
+  }
+  metadata.set_properties(propertys);
+  metadata.set_categrates(categories || []);
+  return new XMlVisxManifest(new PackageManifest(metadata));
+}
+
 export class XMlVisxManifest {
   readonly "@version": "1.0";
   readonly "@encoding": "UTF-8";
@@ -20,26 +64,46 @@ export class PropertyExtensionPack implements PropertyInterface {
   }
 }
 
-function PropertyExtensionTemplate(id: string) {
+function PropertyTemplate(id: string) {
   return class extends PropertyExtensionPack {
     "@Id" = id;
   };
 }
 
-export const PropertyEngine = PropertyExtensionTemplate(
+export const PropertyEngine = PropertyTemplate(
   "Microsoft.VisualStudio.Code.Engine",
 );
 
-export const PropertyExtensionDepdencies = PropertyExtensionTemplate(
+export const PropertyExtensionDepdencies = PropertyTemplate(
   " Microsoft.VisualStudio.Code.ExtensionDependencies",
 );
 
-export const PropertyExtensionKind = PropertyExtensionTemplate(
+export const PropertyExtensionKind = PropertyTemplate(
   "Microsoft.VisualStudio.Code.ExtensionKind",
 );
 
-export const PropertyLocalizedLanguages = PropertyExtensionTemplate(
+export const PropertyLocalizedLanguages = PropertyTemplate(
   "Microsoft.VisualStudio.Code.LocalizedLanguages",
+);
+
+export const PropertyLinksSource = PropertyTemplate(
+  "Microsoft.VisualStudio.Services.Links.Source",
+);
+
+export const PropertyLinksGetStart = PropertyTemplate(
+  "Microsoft.VisualStudio.Services.Links.GetStart",
+);
+
+export const PropertyLinksGithub = PropertyTemplate(
+  "Microsoft.VisualStudio.Services.Links.Github",
+);
+
+export const PropertyLinksSupport = PropertyTemplate(
+  "Microsoft.VisualStudio.Services.Links.Support",
+);
+
+export const PropertyLinksLearn = PropertyTemplate(
+  "Microsoft.VisualStudio.Services.Links.Learn",
 );
 
 export class Metadata {
