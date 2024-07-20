@@ -41,7 +41,7 @@ jobs:
         run: deno lint
 
       - name: Run tests
-        run: deno test -A
+        run: deno task unit_test
 
   release:
     runs-on: ubuntu-latest
