@@ -1,5 +1,5 @@
 {
-  "name": "neocmakelsp-vscode",
+  "name": "cmake_highlight",
   "description": "vscode extension for neocmakelsp",
   "author": "Decodetalkers",
   "license": "MIT",
@@ -88,7 +88,6 @@
     "ovsx": "^0.9.1",
     "typescript": "^5.5.3"
   },
-  "main": "./out/extension.js",
   "scripts": {
     "esbuild": "esbuild ./src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
     "build": "vsce package",

@@ -4,7 +4,6 @@ export function genXmlvisxMinifest(
   {
     name,
     description,
-    license,
     version,
     publisher,
     icon,
@@ -21,8 +20,8 @@ export function genXmlvisxMinifest(
     identifier,
     name,
     description,
-    license,
-    icon || "",
+    "extension/LICENSE",
+    `extension/${icon}` || "",
   );
   metadata.set_tags(tags);
   const propertys = [
@@ -41,7 +40,7 @@ export function genXmlvisxMinifest(
   }
   metadata.set_properties(propertys);
   metadata.set_categrates(categories || []);
-  const asserts = [new AssertManifest("extension/vscode_package.json", true)];
+  const asserts = [new AssertManifest("extension/package.json", true)];
   if (icon) {
     asserts.push(new AssertIconDefault(`extension/${icon}`, true));
   }
@@ -57,8 +56,8 @@ export function genXmlvisxMinifest(
 }
 
 export class XMlVisxManifest {
-  readonly "@version": "1.0";
-  readonly "@encoding": "UTF-8";
+  readonly "@version": string = "1.0";
+  readonly "@encoding": string = "UTF-8";
   PackageManifest: PackageManifest;
   constructor(manifest: PackageManifest) {
     this.PackageManifest = manifest;
@@ -130,7 +129,9 @@ export class Metadata {
   Tags: string = "";
   Categories: string = "";
   GalleryFlags: string = "Public";
-  Properties: PropertyInterface[] = [];
+  Properties: {
+    Property: PropertyInterface[];
+  } = { Property: [] };
   License: string;
   Icon: string = "";
 
@@ -157,7 +158,7 @@ export class Metadata {
     this.Categories = categrates.join(",");
   }
   set_properties(property: PropertyInterface[]) {
-    this.Properties = property;
+    this.Properties.Property = property;
   }
 }
 
@@ -231,11 +232,13 @@ export class PackageManifest {
 
   "Metadata": Metadata;
   Installation: InstallationTarget[] = [InstallationTargetDefault];
-  Assert: Assert[] = [];
+  Asserts: {
+    Assert: Assert[];
+  } = { Assert: [] };
   constructor(metaData: Metadata) {
     this["Metadata"] = metaData;
   }
   set_asserts(asserts: Assert[]) {
-    this.Assert = asserts;
+    this.Asserts.Assert = asserts;
   }
 }
