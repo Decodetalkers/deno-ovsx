@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "exports": {
     ".": "./mod.ts",
-    "bin": "./bin.ts"
+    "./bin": "./bin.ts"
   },
   "tasks": {
     "dev": "deno test --watch mod.ts",
