@@ -17,7 +17,7 @@ const CONTENT_TYPES_FILE = "[Content_Types].xml";
 
 const VISX_MANIFEST = "extension.visxmanifest";
 
-export async function makeVisxPackage(dir_entry: string, target_file: string) {
+export async function makeVisxPackage(dir_entry: string) {
   const zipFileWriter: BlobWriter = new BlobWriter();
 
   const zipWriter = new ZipWriter(zipFileWriter);
@@ -29,12 +29,14 @@ export async function makeVisxPackage(dir_entry: string, target_file: string) {
 
   zipWriter.add(CONTENT_TYPES_FILE, contentTypeReader);
 
-  const xmlreader = await projectDirReader(
+  const xmlreader = (await projectDirReader(
     new URL("file://" + path.resolve(dir_entry)),
-  );
+  ))!;
+
+  const file_name = `${xmlreader.name}-${xmlreader.version}.vsix`;
 
   // deno-lint-ignore no-explicit-any
-  const xmlVisxData = xml.stringify(genXmlvsixMinifest(xmlreader!) as any);
+  const xmlVisxData = xml.stringify(genXmlvsixMinifest(xmlreader) as any);
   const xmlVisxReader = new TextReader(xmlVisxData);
 
   zipWriter.add(VISX_MANIFEST, xmlVisxReader);
@@ -45,7 +47,7 @@ export async function makeVisxPackage(dir_entry: string, target_file: string) {
 
   const zipFileBlob: Blob = await zipFileWriter.getData();
 
-  await Deno.writeFile(target_file, zipFileBlob.stream());
+  await Deno.writeFile(file_name, zipFileBlob.stream());
 }
 
 async function walkFileFilited(dir: string, zipWriter: ZipWriter<Blob>) {
