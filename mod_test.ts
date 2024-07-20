@@ -42,8 +42,8 @@ Deno.test(async function XmlVsixMinifestTest() {
       <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/Decodetalkers/neocmakelsp-vscode.git"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/Decodetalkers/neocmakelsp-vscode.git"/>
     </Properties>
-    <License>MIT</License>
-    <Icon>icon.png</Icon>
+    <License>extension/LICENSE</License>
+    <Icon>extension/icon.png</Icon>
   </Metadata>
   <Installation>
     <Id>Microsoft.VisualStudio.Code</Id>
@@ -52,6 +52,7 @@ Deno.test(async function XmlVsixMinifestTest() {
     <Assert Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>
     <Assert Type="Microsoft.VisualStudio.Services.Icons.Default" Path="extension/icon.png" Addressable="true"/>
     <Assert Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE" Addressable="true"/>
+    <Assert Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/README.txt" Addressable="true"/>
   </Asserts>
 </PackageManifest>`;
   const reader = await projectDirReader(
