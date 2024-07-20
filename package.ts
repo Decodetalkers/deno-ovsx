@@ -48,7 +48,7 @@ export async function makeVisxPackage(dir_entry: string, target_file: string) {
   await Deno.writeFile(target_file, zipFileBlob.stream());
 }
 
-async function walkFileFilited(dir: string, zipWriter: ZipWriter) {
+async function walkFileFilited(dir: string, zipWriter: ZipWriter<Blob>) {
   for await (
     const entry of walk(dir, { includeDirs: true, skip: excludeDirs })
   ) {
