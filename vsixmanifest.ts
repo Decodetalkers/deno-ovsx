@@ -83,41 +83,49 @@ function PropertyTemplate(id: string): typeof PropertyExtensionPack {
   };
 }
 
-export const PropertyEngine = PropertyTemplate(
+export const PropertyEngine: typeof PropertyExtensionPack = PropertyTemplate(
   "Microsoft.VisualStudio.Code.Engine",
 );
 
-export const PropertyExtensionDepdencies = PropertyTemplate(
-  " Microsoft.VisualStudio.Code.ExtensionDependencies",
-);
+export const PropertyExtensionDepdencies: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    " Microsoft.VisualStudio.Code.ExtensionDependencies",
+  );
 
-export const PropertyExtensionKind = PropertyTemplate(
-  "Microsoft.VisualStudio.Code.ExtensionKind",
-);
+export const PropertyExtensionKind: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    "Microsoft.VisualStudio.Code.ExtensionKind",
+  );
 
-export const PropertyLocalizedLanguages = PropertyTemplate(
-  "Microsoft.VisualStudio.Code.LocalizedLanguages",
-);
+export const PropertyLocalizedLanguages: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    "Microsoft.VisualStudio.Code.LocalizedLanguages",
+  );
 
-export const PropertyLinksSource = PropertyTemplate(
-  "Microsoft.VisualStudio.Services.Links.Source",
-);
+export const PropertyLinksSource: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    "Microsoft.VisualStudio.Services.Links.Source",
+  );
 
-export const PropertyLinksGetStart = PropertyTemplate(
-  "Microsoft.VisualStudio.Services.Links.GetStart",
-);
+export const PropertyLinksGetStart: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    "Microsoft.VisualStudio.Services.Links.GetStart",
+  );
 
-export const PropertyLinksGithub = PropertyTemplate(
-  "Microsoft.VisualStudio.Services.Links.Github",
-);
+export const PropertyLinksGithub: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    "Microsoft.VisualStudio.Services.Links.Github",
+  );
 
-export const PropertyLinksSupport = PropertyTemplate(
-  "Microsoft.VisualStudio.Services.Links.Support",
-);
+export const PropertyLinksSupport: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    "Microsoft.VisualStudio.Services.Links.Support",
+  );
 
-export const PropertyLinksLearn = PropertyTemplate(
-  "Microsoft.VisualStudio.Services.Links.Learn",
-);
+export const PropertyLinksLearn: typeof PropertyExtensionPack =
+  PropertyTemplate(
+    "Microsoft.VisualStudio.Services.Links.Learn",
+  );
 
 export class Metadata {
   Identity: Identify;
@@ -211,15 +219,15 @@ export function AssertTemplate(tp: string): typeof AssertManifest {
   };
 }
 
-export const AssertDetails = AssertTemplate(
+export const AssertDetails: typeof AssertManifest = AssertTemplate(
   "Microsoft.VisualStudio.Services.Content.Details",
 );
 
-export const AssertLicense = AssertTemplate(
+export const AssertLicense: typeof AssertManifest = AssertTemplate(
   "Microsoft.VisualStudio.Services.Content.License",
 );
 
-export const AssertIconDefault = AssertTemplate(
+export const AssertIconDefault: typeof AssertManifest = AssertTemplate(
   "Microsoft.VisualStudio.Services.Icons.Default",
 );
 

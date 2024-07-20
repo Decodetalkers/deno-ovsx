@@ -33,7 +33,9 @@ export interface JsonInfo {
   contains_license: boolean;
 }
 
-export async function projectDirReader(dir_path: URL) {
+export async function projectDirReader(
+  dir_path: URL,
+): Promise<JsonInfo | undefined> {
   const json_path = path.join(dir_path.pathname, PACKAGE_JSON_NAME);
   const info = await packageJsonReader(new URL("file://" + json_path));
   if (!info) {
@@ -53,7 +55,9 @@ export async function projectDirReader(dir_path: URL) {
   return info;
 }
 
-export async function packageJsonReader(path: URL): Promise<JsonInfo | undefined> {
+export async function packageJsonReader(
+  path: URL,
+): Promise<JsonInfo | undefined> {
   const response = await fetch(path);
   if (!response.ok) {
     return undefined;

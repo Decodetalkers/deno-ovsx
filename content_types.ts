@@ -75,4 +75,5 @@ export class XMLContentTypes implements XMLContentTypesInterface {
   };
 }
 
-export const XMLContentTypesDefault = new XMLContentTypes();
+export const XMLContentTypesDefault: XMLContentTypesInterface =
+  new XMLContentTypes();
