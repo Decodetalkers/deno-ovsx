@@ -41,6 +41,11 @@ const OVSX = {
       },
     },
   },
+  debug: {
+    description: "start with debug",
+    default: false,
+    type: "boolean",
+  },
 } as const;
 
 const cmd: Command = {
@@ -53,6 +58,31 @@ const cmd: Command = {
 
 const results = clapCli(OVSX, cmd);
 
+export function handleError(
+  debug?: boolean,
+  additionalMessage?: string,
+  exit: boolean = true,
+  // deno-lint-ignore no-explicit-any
+): (reason: any) => void {
+  return (reason) => {
+    if (reason instanceof Error && !debug) {
+      console.error(`\u274c  ${reason.message}`);
+      if (additionalMessage) {
+        console.error(additionalMessage);
+      }
+    } else if (typeof reason === "string") {
+      console.error(`\u274c  ${reason}`);
+    } else if (reason !== undefined) {
+      console.error(reason);
+    } else {
+      console.error("An unknown error occurred.");
+    }
+
+    if (exit) {
+      Deno.exit(1);
+    }
+  };
+}
 if (results?.publishVscode) {
   let path = results.publishVscode.target;
   if (!path) {
@@ -69,10 +99,18 @@ if (results?.publishVscode) {
     path = packageInfo.fileName;
   }
   const token = results.publishVscode.pat;
-  await publishVscode({
-    packagePath: [path],
-    pat: token,
-  });
+  try {
+    await publishVscode({
+      packagePath: [path],
+      pat: token,
+    });
+  } catch (e) {
+    // deno-lint-ignore no-explicit-any
+    const message = (e as any).message as string;
+    const errorHandler = handleError(results.debug, message, false);
+    errorHandler(new Error("rejected"));
+    Deno.exit(1);
+  }
   Deno.exit(0);
 }
 
@@ -92,10 +130,25 @@ if (results?.publishOvsx) {
     path = packageInfo.fileName;
   }
   const token = results.publishOvsx.pat;
-  await publishOVSX({
+  const publish_results = await publishOVSX({
     packagePath: [path],
     pat: token,
   });
+  const reasons = publish_results.filter((result) =>
+    result.status === "rejected"
+  )
+    .map((rejectedResult) => rejectedResult.reason);
+
+  if (reasons.length > 0) {
+    const message = "See the documentation for more information:\n" +
+      "https://github.com/eclipse/openvsx/wiki/Publishing-Extensions";
+    const errorHandler = handleError(results.debug, message, false);
+    for (const reason of reasons) {
+      errorHandler(reason);
+    }
+
+    Deno.exit(1);
+  }
   Deno.exit(0);
 }
 
