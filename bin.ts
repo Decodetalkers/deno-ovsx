@@ -56,11 +56,7 @@ const results = clapCli(OVSX, cmd);
 if (results?.publishVscode) {
   let path = results.publishVscode.target;
   if (!path) {
-    if (!results.build) {
-      console.warn("we nee a path to publish it");
-      Deno.exit(0);
-    }
-    const build_path = results.build.path || "./";
+    const build_path = results.build?.path || "./";
     const packageInfo = await createVSIX(build_path);
     if (!packageInfo) {
       Deno.exit(0);
@@ -83,11 +79,7 @@ if (results?.publishVscode) {
 if (results?.publishOvsx) {
   let path = results.publishOvsx.target;
   if (!path) {
-    if (!results.build) {
-      console.warn("we nee a path to publish it");
-      Deno.exit(0);
-    }
-    const build_path = results.build.path || "./";
+    const build_path = results.build?.path || "./";
     const packageInfo = await createVSIX(build_path);
     if (!packageInfo) {
       Deno.exit(0);
