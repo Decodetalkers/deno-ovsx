@@ -1,8 +1,7 @@
 import { parseArgs } from "@std/cli";
 
 import file from "./deno.json" with { type: "json" };
-import { makeVisxPackage } from "./package.ts";
-import { build_extension } from "./esbuild.ts";
+import { createVSIX } from "./mod.ts";
 
 const version = file.version;
 
@@ -28,8 +27,7 @@ if (input_args.help) {
 
 if (input_args.build) {
   const path = input_args.path || "./";
-  await build_extension(path);
-  const packageInfo = await makeVisxPackage(path);
+  const packageInfo = await createVSIX(path);
 
   console.log(packageInfo.fileName);
   for (const entry of packageInfo.entries) {

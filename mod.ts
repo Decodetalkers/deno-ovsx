@@ -1,4 +1,4 @@
-export { makeVisxPackage } from "./package.ts";
+export { createVSIX } from "./package.ts";
 
 export type { PackageInfo } from "./package.ts";
 

@@ -15,6 +15,7 @@ import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./content_types.ts";
 import { projectDirReader } from "./json_reader.ts";
 import { genXmlvsixMinifest } from "./vsixmanifest.ts";
+import { build_extension } from "./esbuild.ts";
 const excludeDirs = [
   /\/src$/,
   /\/node_modules$/,
@@ -34,7 +35,12 @@ export interface PackageInfo {
   entries: Entry[];
 }
 
-export async function makeVisxPackage(dir_entry: string): Promise<PackageInfo> {
+export async function createVSIX(dir_entry: string): Promise<PackageInfo> {
+  await build_extension(dir_entry);
+  return await packageVSIX(dir_entry);
+}
+
+export async function packageVSIX(dir_entry: string): Promise<PackageInfo> {
   const zipFileWriter: BlobWriter = new BlobWriter();
 
   const zipWriter = new ZipWriter(zipFileWriter);
