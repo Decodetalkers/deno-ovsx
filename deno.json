@@ -10,12 +10,13 @@
     "unit_test": "deno test --allow-read -A"
   },
   "imports": {
-    "@libs/xml": "jsr:@libs/xml@^5.4.12",
-    "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.10.3",
-    "@std/cli": "jsr:@std/cli@^1.0.0",
-    "@std/fs": "jsr:@std/fs@^0.229.3",
-    "@std/path": "jsr:@std/path@^1.0.1",
-    "@zip-js/zip-js": "jsr:@zip-js/zip-js@^2.7.47",
-    "esbuild": "npm:esbuild@^0.23.0"
+    "@deno/esbuild-plugin": "jsr:@deno/esbuild-plugin@^1.2.1",
+    "@libs/xml": "jsr:@libs/xml@^7.0.3",
+    "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",
+    "@std/cli": "jsr:@std/cli@^1.0.28",
+    "@std/fs": "jsr:@std/fs@^1.0.23",
+    "@std/path": "jsr:@std/path@^1.1.4",
+    "@zip-js/zip-js": "jsr:@zip-js/zip-js@^2.8.24",
+    "esbuild": "npm:esbuild@^0.27.3"
   }
 }

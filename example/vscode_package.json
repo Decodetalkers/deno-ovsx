@@ -1,0 +1,201 @@
+{
+  "name": "neocmakelsp-vscode",
+  "description": "vscode extension for neocmakelsp",
+  "author": "Decodetalkers",
+  "license": "MIT",
+  "version": "0.0.28",
+  "publisher": "Decodetalkers",
+  "icon": "icon.png",
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Formatters",
+    "Debuggers"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neocmakelsp/neocmakelsp-vscode"
+  },
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "neocmakelsp",
+      "properties": {
+        "neocmakelsp.tcp": {
+          "type": "boolean",
+          "default": false,
+          "description": "use tcp to start neocmakelsp"
+        },
+        "neocmakelsp.localtarget": {
+          "type": "boolean",
+          "default": false,
+          "description": "use neocmakelsp from local path"
+        },
+        "neocmakelsp.path": {
+          "type": "string",
+          "default": "neocmakelsp",
+          "description": "path of neocmakelsp"
+        },
+        "neocmakelsp.debug": {
+          "type": "boolean",
+          "default": false,
+          "description": "enable the debug feature"
+        },
+        "neocmakelsp.lsp_snippets": {
+          "type": "boolean",
+          "default": false,
+          "description": "enable the lsp snippets"
+        }
+      }
+    },
+    "languages": [
+      {
+        "id": "cmake",
+        "extensions": [
+          ".cmake"
+        ],
+        "filenames": [
+          "CMakelists.txt"
+        ],
+        "aliases": [
+          "CMake"
+        ]
+      },
+      {
+        "id": "cmake-cache",
+        "filenames": [
+          "CMakeCache.txt"
+        ],
+        "aliases": [
+          "CMake Cache"
+        ]
+      }
+    ],
+    "breakpoints": [
+      {
+        "language": "cmake"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "cmake",
+        "label": "CMake",
+        "languages": [
+          "cmake"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "properties": {
+              "pipeName": {
+                "type": "string",
+                "description": "Name of the named piped that the debugger will communicate with CMake over"
+              },
+              "scriptPath": {
+                "type": "string",
+                "description": "the started script",
+                "default": "script.cmake"
+              },
+              "cmakeDebugType": {
+                "type": "string",
+                "enum": [
+                  "configure",
+                  "script"
+                ],
+                "description": "cmake debug type",
+                "default": "configure"
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "cmake",
+            "request": "launch",
+            "name": "configure",
+            "cmakeDebugType": "configure"
+          }
+        ],
+        "configurationSnippets": [
+          {
+            "label": "cmake project launch",
+            "description": "debug when configure the project",
+            "body": {
+              "type": "cmake",
+              "request": "launch",
+              "name": "project debug",
+              "cmakeDebugType": "configure"
+            }
+          },
+          {
+            "label": "cmake script debug launch",
+            "description": "debug a single cmake file",
+            "body": {
+              "type": "cmake",
+              "request": "launch",
+              "name": "script debug",
+              "cmakeDebugType": "script",
+              "scriptPath": "script.cmake"
+            }
+          }
+        ]
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "neocmakelsp.outline.runScriptDebugger",
+          "when": "neocmakelsp.debug == true"
+        },
+        {
+          "command": "neocmakelsp.outline.runConfigureDebugger",
+          "when": "neocmakelsp.debug == true"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "neocmakelsp.runScriptDebugger",
+        "title": "debug current cmake script",
+        "categories": "CMake",
+        "when": "neocmakelsp.debug == true"
+      },
+      {
+        "command": "neocmakelsp.outline.runScriptDebugger",
+        "title": "debug current cmake script",
+        "categories": "CMake",
+        "when": "neocmakelsp.debug == true"
+      },
+      {
+        "command": "neocmakelsp.runConfigureDebugger",
+        "title": "debug current cmake workspace",
+        "categories": "CMake",
+        "when": "neocmakelsp.debug == true"
+      },
+      {
+        "command": "neocmakelsp.outline.runConfigureDebugger",
+        "title": "debug current cmake workspace",
+        "categories": "CMake",
+        "when": "neocmakelsp.debug == true"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cmake",
+        "scopeName": "source.cmake",
+        "path": "./syntaxes/CMake.tmLanguage"
+      },
+      {
+        "language": "cmake-cache",
+        "scopeName": "source.cmakecache",
+        "path": "./syntaxes/CMakeCache.tmLanguage"
+      }
+    ]
+  },
+  "activationEvents": [
+    "onLanguage:cmake"
+  ],
+  "main": "./out/extension.js"
+}

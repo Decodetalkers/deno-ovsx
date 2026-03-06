@@ -79,7 +79,7 @@ export class PropertyExtensionPack implements PropertyInterface {
 
 function PropertyTemplate(id: string): typeof PropertyExtensionPack {
   return class extends PropertyExtensionPack {
-    "@Id" = id;
+    override "@Id" = id;
   };
 }
 
@@ -215,7 +215,7 @@ export class AssertManifest implements Assert {
 
 export function AssertTemplate(tp: string): typeof AssertManifest {
   return class extends AssertManifest {
-    readonly "@Type": string = tp;
+    override readonly "@Type": string = tp;
   };
 }
 
