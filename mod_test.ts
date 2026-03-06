@@ -48,7 +48,7 @@ Deno.test(async function XmlVsixMinifestTest() {
     <Icon>extension/icon.png</Icon>
   </Metadata>
   <Installation>
-    <Id>Microsoft.VisualStudio.Code</Id>
+    <InstallationTarget Id="Microsoft.VisualStudio.Code"/>
   </Installation>
   <Asserts>
     <Assert Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>

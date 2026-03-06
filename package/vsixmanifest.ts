@@ -191,11 +191,11 @@ export class Identify {
 }
 
 export interface InstallationTarget {
-  Id: string;
+  "@Id": string;
 }
 
 export const InstallationTargetDefault: InstallationTarget = {
-  Id: "Microsoft.VisualStudio.Code",
+  "@Id": "Microsoft.VisualStudio.Code",
 };
 
 export interface Assert {
@@ -253,7 +253,11 @@ export class PackageManifest {
     "http://schemas.microsoft.com/developer/vsx-schema-design/2011";
 
   "Metadata": Metadata;
-  Installation: InstallationTarget[] = [InstallationTargetDefault];
+  Installation: { InstallationTarget: InstallationTarget[] } = {
+    InstallationTarget: [
+      InstallationTargetDefault,
+    ],
+  };
   Asserts: {
     Assert: Assert[];
   } = { Assert: [] };
