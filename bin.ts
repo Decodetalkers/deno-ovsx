@@ -1,32 +1,114 @@
-import { parseArgs } from "@std/cli";
-
 import file from "./deno.json" with { type: "json" };
 import { createVSIX } from "./mod.ts";
+import { clapCli, type Command } from "@nobody/deno-clap";
+import { publishOVSX, publishVscode } from "./publish.ts";
 
 const version = file.version;
 
-interface ArgsParses {
-  help?: boolean;
-  build?: boolean;
-  path?: string;
-  token?: string;
-  version?: string;
-}
+const OVSX = {
+  publishVscode: {
+    description: "publish to vscode",
+    children: {
+      pat: {
+        description: "with token",
+        type: "string",
+      },
+      target: {
+        description: "with target",
+        type: "string",
+      },
+    },
+  },
+  publishOvsx: {
+    description: "publish to ovsx",
+    children: {
+      pat: {
+        description: "with token",
+        type: "string",
+      },
+      target: {
+        description: "with target",
+        type: "string",
+      },
+    },
+  },
+  build: {
+    description: "build the target",
+    children: {
+      path: {
+        description: "the path of directory",
+        type: "string",
+      },
+    },
+  },
+} as const;
 
-const input_args = parseArgs(Deno.args) as ArgsParses;
+const cmd: Command = {
+  exeName: "deno-ovsx",
+  description: "vscode plugin deno version",
+  author: "Decodetalkers",
 
-if (input_args.version) {
-  console.log(`version: ${version}`);
+  version,
+};
+
+const results = clapCli(OVSX, cmd);
+
+if (results?.publishVscode) {
+  let path = results.publishVscode.target;
+  if (!path) {
+    if (!results.build) {
+      console.warn("we nee a path to publish it");
+      Deno.exit(0);
+    }
+    const build_path = results.build.path || "./";
+    const packageInfo = await createVSIX(build_path);
+    if (!packageInfo) {
+      Deno.exit(0);
+    }
+
+    console.log(packageInfo.fileName);
+    for (const entry of packageInfo.entries) {
+      console.log(`   ${entry.filename}`);
+    }
+    path = packageInfo.fileName;
+  }
+  const token = results.publishVscode.pat;
+  await publishVscode({
+    packagePath: [path],
+    pat: token,
+  });
   Deno.exit(0);
 }
 
-if (input_args.help) {
-  console.log("welcome to deno_ovsx");
+if (results?.publishOvsx) {
+  let path = results.publishOvsx.target;
+  if (!path) {
+    if (!results.build) {
+      console.warn("we nee a path to publish it");
+      Deno.exit(0);
+    }
+    const build_path = results.build.path || "./";
+    const packageInfo = await createVSIX(build_path);
+    if (!packageInfo) {
+      Deno.exit(0);
+    }
+
+    console.log(packageInfo.fileName);
+    for (const entry of packageInfo.entries) {
+      console.log(`   ${entry.filename}`);
+    }
+    path = packageInfo.fileName;
+  }
+  const token = results.publishOvsx.pat;
+  await publishOVSX({
+    packagePath: [path],
+    pat: token,
+  });
   Deno.exit(0);
 }
 
-if (input_args.build) {
-  const path = input_args.path || "./";
+if (results?.build) {
+  const path = results.build.path || "./";
   const packageInfo = await createVSIX(path);
   if (!packageInfo) {
     Deno.exit(0);

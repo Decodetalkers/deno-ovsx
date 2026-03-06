@@ -31,7 +31,7 @@ const excludeDirs = [
 
 const CONTENT_TYPES_FILE = "[Content_Types].xml";
 
-const VISX_MANIFEST = "extension.visxmanifest";
+const VSIX_MANIFEST = "extension.vsixmanifest";
 
 export interface PackageInfo {
   fileName: string;
@@ -73,7 +73,7 @@ async function packageVSIX(
   const xmlVisxData = xml.stringify(genXmlvsixMinifest(dir_info) as any);
   const xmlVisxReader = new TextReader(xmlVisxData);
 
-  zipWriter.add(VISX_MANIFEST, xmlVisxReader);
+  zipWriter.add(VSIX_MANIFEST, xmlVisxReader);
 
   await walkFileFilited(dir_entry, zipWriter);
 
