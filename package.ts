@@ -13,9 +13,11 @@ import * as path from "@std/path";
 import { walk } from "@std/fs";
 import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./package/content_types.ts";
-import { projectDirReader } from "./package/json_reader.ts";
+import { type JsonInfo, projectDirReader } from "./package/json_reader.ts";
 import { genXmlvsixMinifest } from "./package/vsixmanifest.ts";
 import { build_extension } from "./package/esbuild.ts";
+
+import { warn } from "@std/log";
 const excludeDirs = [
   /\/src$/,
   /\/node_modules$/,
@@ -35,12 +37,24 @@ export interface PackageInfo {
   entries: Entry[];
 }
 
-export async function createVSIX(dir_entry: string): Promise<PackageInfo> {
-  await build_extension(dir_entry);
-  return await packageVSIX(dir_entry);
+export async function createVSIX(
+  dir_entry: string,
+): Promise<PackageInfo | undefined> {
+  const info = await projectDirReader(
+    new URL("file://" + path.resolve(dir_entry)),
+  );
+  if (!info) {
+    warn("no vscode_package.json found");
+    return;
+  }
+  await build_extension(dir_entry, info);
+  return await packageVSIX(dir_entry, info);
 }
 
-export async function packageVSIX(dir_entry: string): Promise<PackageInfo> {
+async function packageVSIX(
+  dir_entry: string,
+  dir_info: JsonInfo,
+): Promise<PackageInfo> {
   const zipFileWriter: BlobWriter = new BlobWriter();
 
   const zipWriter = new ZipWriter(zipFileWriter);
@@ -52,14 +66,10 @@ export async function packageVSIX(dir_entry: string): Promise<PackageInfo> {
 
   zipWriter.add(CONTENT_TYPES_FILE, contentTypeReader);
 
-  const xmlreader = (await projectDirReader(
-    new URL("file://" + path.resolve(dir_entry)),
-  ))!;
-
-  const fileName = `${xmlreader.name}-${xmlreader.version}.vsix`;
+  const fileName = `${dir_info.name}-${dir_info.version}.vsix`;
 
   // deno-lint-ignore no-explicit-any
-  const xmlVisxData = xml.stringify(genXmlvsixMinifest(xmlreader) as any);
+  const xmlVisxData = xml.stringify(genXmlvsixMinifest(dir_info) as any);
   const xmlVisxReader = new TextReader(xmlVisxData);
 
   zipWriter.add(VISX_MANIFEST, xmlVisxReader);

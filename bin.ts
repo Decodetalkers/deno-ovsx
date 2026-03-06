@@ -28,6 +28,9 @@ if (input_args.help) {
 if (input_args.build) {
   const path = input_args.path || "./";
   const packageInfo = await createVSIX(path);
+  if (!packageInfo) {
+    Deno.exit(0);
+  }
 
   console.log(packageInfo.fileName);
   for (const entry of packageInfo.entries) {
