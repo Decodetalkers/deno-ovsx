@@ -58,7 +58,9 @@ async function packageVSIX(
 ): Promise<PackageInfo> {
   const zipFileWriter: BlobWriter = new BlobWriter();
 
-  const zipWriter = new ZipWriter(zipFileWriter);
+  const zipWriter = new ZipWriter(zipFileWriter, {
+    extendedTimestamp: false,
+  });
 
   // deno-lint-ignore no-explicit-any
   const contentTypeData = xml.stringify(XMLContentTypesDefault as any);
