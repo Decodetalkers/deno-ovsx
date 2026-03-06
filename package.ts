@@ -26,7 +26,7 @@ const excludeDirs = [
   /deno.json/,
   /deno.lock/,
   /.*\.vsix/,
-  /.git/
+  /.git/,
 ];
 
 const CONTENT_TYPES_FILE = "[Content_Types].xml";
