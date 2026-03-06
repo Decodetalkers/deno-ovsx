@@ -4,8 +4,8 @@ import { exists } from "@std/fs";
 import { warn } from "@std/log";
 
 const PACKAGE_JSON_NAME = "vscode_package.json";
-const README = "README.md";
-const LICENSE = "LICENSE";
+const READMES = ["README.md", "readme.md"];
+const LICENSES = ["LICENSE", "LICENSE.txt"];
 
 interface Languages {
   id: string;
@@ -46,16 +46,22 @@ export async function projectDirReader(
   if (!info) {
     return info;
   }
-  const readme_path = new URL("file://" + path.join(dir_path.pathname, README));
-  if (await exists(readme_path)) {
-    info.contains_readme = true;
+  for (const readme of READMES) {
+    const readme_path = new URL(
+      "file://" + path.join(dir_path.pathname, readme),
+    );
+    if (await exists(readme_path)) {
+      info.contains_readme = true;
+    }
   }
-  const license_path = new URL(
-    "file://" +
-      path.join(dir_path.pathname, LICENSE),
-  );
-  if (await exists(license_path)) {
-    info.contains_license = true;
+  for (const license in LICENSES) {
+    const license_path = new URL(
+      "file://" +
+        path.join(dir_path.pathname, license),
+    );
+    if (await exists(license_path)) {
+      info.contains_license = true;
+    }
   }
   return info;
 }

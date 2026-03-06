@@ -101,7 +101,11 @@ async function walkFileFilited(dir: string, zipWriter: ZipWriter<Blob>) {
       const fileReader = new Uint8ArrayReader(data);
 
       if (entry.name == "vscode_package.json") {
-        await zipWriter.add(`extension/package.json`, fileReader);
+        await zipWriter.add("extension/package.json", fileReader);
+      } else if (entry.name == "README.md") {
+        await zipWriter.add("extension/readme.md", fileReader);
+      } else if (entry.name == "LICENSE") {
+        await zipWriter.add("extension/LICENSE.txt", fileReader);
       } else {
         await zipWriter.add(`extension/${filepath}`, fileReader);
       }

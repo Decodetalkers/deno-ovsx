@@ -21,7 +21,7 @@ export function genXmlvsixMinifest(
     identifier,
     name,
     description,
-    "extension/LICENSE",
+    "extension/LICENSE.txt",
     `extension/${icon}` || "",
   );
   metadata.set_tags(tags);
@@ -46,10 +46,10 @@ export function genXmlvsixMinifest(
     asserts.push(new AssertIconDefault(`extension/${icon}`, true));
   }
   if (contains_license) {
-    asserts.push(new AssertLicense("extension/LICENSE", true));
+    asserts.push(new AssertLicense("extension/LICENSE.txt", true));
   }
   if (contains_readme) {
-    asserts.push(new AssertDetails("extension/README.txt", true));
+    asserts.push(new AssertDetails("extension/readme.md", true));
   }
   asserts.push(new AssertChangelog(changelog, true));
   const minifest = new PackageManifest(metadata);
