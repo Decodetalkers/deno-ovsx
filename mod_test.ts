@@ -1,9 +1,11 @@
 import { assertEquals } from "@std/assert";
 import * as xml from "@libs/xml";
-import { XMLContentTypesDefault } from "./content_types.ts";
-import { projectDirReader } from "./json_reader.ts";
+import {
+  genXmlvsixMinifest,
+  projectDirReader,
+  XMLContentTypesDefault,
+} from "./mod.ts";
 import { resolve } from "@std/path";
-import { genXmlvsixMinifest } from "./vsixmanifest.ts";
 
 Deno.test(function xmlcontentTest() {
   const data = `<?xml version="1.0" encoding="UTF-8"?>

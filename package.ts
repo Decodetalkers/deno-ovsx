@@ -12,10 +12,10 @@ import * as path from "@std/path";
 
 import { walk } from "@std/fs";
 import * as xml from "@libs/xml";
-import { XMLContentTypesDefault } from "./content_types.ts";
-import { projectDirReader } from "./json_reader.ts";
-import { genXmlvsixMinifest } from "./vsixmanifest.ts";
-import { build_extension } from "./esbuild.ts";
+import { XMLContentTypesDefault } from "./package/content_types.ts";
+import { projectDirReader } from "./package/json_reader.ts";
+import { genXmlvsixMinifest } from "./package/vsixmanifest.ts";
+import { build_extension } from "./package/esbuild.ts";
 const excludeDirs = [
   /\/src$/,
   /\/node_modules$/,

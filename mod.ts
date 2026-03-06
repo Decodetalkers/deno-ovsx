@@ -22,18 +22,18 @@ export {
   PropertyLinksSupport,
   PropertyLocalizedLanguages,
   XMlVisxManifest,
-} from "./vsixmanifest.ts";
+} from "./package/vsixmanifest.ts";
 
 export type {
   Assert,
   InstallationTargetDefault,
   PropertyInterface,
-} from "./vsixmanifest.ts";
+} from "./package/vsixmanifest.ts";
 
 export type {
   DefaultExtensions,
   XMLContentTypesInterface,
-} from "./content_types.ts";
+} from "./package/content_types.ts";
 
 export {
   JsExtension,
@@ -46,12 +46,12 @@ export {
   XMLContentTypes,
   XMLContentTypesDefault,
   YmlExtension,
-} from "./content_types.ts";
+} from "./package/content_types.ts";
 
-export type { JsonInfo } from "./json_reader.ts";
+export type { JsonInfo } from "./package/json_reader.ts";
 
 export {
   packageJsonReader,
   packageMainData,
   projectDirReader,
-} from "./json_reader.ts";
+} from "./package/json_reader.ts";
