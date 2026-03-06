@@ -44,7 +44,7 @@ Deno.test(async function XmlVsixMinifestTest() {
       <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
     </Properties>
-    <License>extension/LICENSE</License>
+    <License>extension/LICENSE.txt</License>
     <Icon>extension/icon.png</Icon>
   </Metadata>
   <Installation>
@@ -53,9 +53,9 @@ Deno.test(async function XmlVsixMinifestTest() {
   <Asserts>
     <Assert Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>
     <Assert Type="Microsoft.VisualStudio.Services.Icons.Default" Path="extension/icon.png" Addressable="true"/>
-    <Assert Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE" Addressable="true"/>
-    <Assert Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/README.txt" Addressable="true"/>
-    <Assert Type="Microsoft.VisualStudio.Services.Content.Changelog" Path="extension/CHANGELOG.md" Addressable="true"/>
+    <Assert Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE.txt" Addressable="true"/>
+    <Assert Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/readme.md" Addressable="true"/>
+    <Assert Type="Microsoft.VisualStudio.Services.Content.Changelog" Path="extension/changelog.md" Addressable="true"/>
   </Asserts>
 </PackageManifest>`;
   const reader = await projectDirReader(

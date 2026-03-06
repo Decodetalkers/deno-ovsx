@@ -54,7 +54,7 @@ export async function projectDirReader(
       info.contains_readme = true;
     }
   }
-  for (const license in LICENSES) {
+  for (const license of LICENSES) {
     const license_path = new URL(
       "file://" +
         path.join(dir_path.pathname, license),
