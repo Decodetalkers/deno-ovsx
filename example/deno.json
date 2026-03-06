@@ -2,7 +2,7 @@
   "tasks": {
     "dev": "deno run --watch main.ts"
   },
-  "exports" : "./src/extension.ts",
+  "exports": "./src/extension.ts",
   "imports": {
     "@aws-sdk/client-s3": "npm:@aws-sdk/client-s3@^3.1002.0",
     "@deno/esbuild-plugin": "jsr:@deno/esbuild-plugin@^1.2.1",

@@ -1,8 +1,8 @@
-import { assertEquals } from "jsr:@std/assert";
+import { assertEquals } from "@std/assert";
 import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./content_types.ts";
 import { projectDirReader } from "./json_reader.ts";
-import { resolve } from "jsr:@std/path@^1.0.1/resolve";
+import { resolve } from "@std/path";
 import { genXmlvsixMinifest } from "./vsixmanifest.ts";
 
 Deno.test(function xmlcontentTest() {
@@ -25,22 +25,22 @@ Deno.test(async function XmlVsixMinifestTest() {
   const data = `<?xml version="1.0" encoding="UTF-8"?>
 <PackageManifest version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Language="en-US" Id="cmake_highlight" Version="0.0.14" Publisher="Decodetalkers"/>
-    <DisplayName>cmake_highlight</DisplayName>
+    <Identity Language="en-US" Id="neocmakelsp-vscode" Version="0.0.28" Publisher="Decodetalkers"/>
+    <DisplayName>neocmakelsp-vscode</DisplayName>
     <Description xml:space="preserve">vscode extension for neocmakelsp</Description>
     <Tags>cmake,cmake-cache</Tags>
-    <Categories>Programming Languages,Linters,Formatters</Categories>
+    <Categories>Programming Languages,Linters,Formatters,Debuggers</Categories>
     <GalleryFlags>Public</GalleryFlags>
     <Properties>
-      <Property Id="Microsoft.VisualStudio.Code.Engine" Value="^1.91.0"/>
+      <Property Id="Microsoft.VisualStudio.Code.Engine" Value="^1.100.0"/>
       <Property Id="Microsoft.VisualStudio.Code.ExtensionPack" Value=""/>
       <Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="workspace"/>
       <Property Id="Microsoft.VisualStudio.Code.LocalizedLanguages" Value=""/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/Decodetalkers/neocmakelsp-vscode.git"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.GetStart" Value="https://github.com/Decodetalkers/neocmakelsp-vscode.git"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Github" Value="https://github.com/Decodetalkers/neocmakelsp-vscode.git"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/Decodetalkers/neocmakelsp-vscode.git"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/Decodetalkers/neocmakelsp-vscode.git"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.GetStart" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Github" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
     </Properties>
     <License>extension/LICENSE</License>
     <Icon>extension/icon.png</Icon>
@@ -56,7 +56,7 @@ Deno.test(async function XmlVsixMinifestTest() {
   </Asserts>
 </PackageManifest>`;
   const reader = await projectDirReader(
-    new URL("file://" + resolve("./test/")),
+    new URL("file://" + resolve("./example/")),
   );
   // deno-lint-ignore no-explicit-any
   assertEquals(data, xml.stringify(genXmlvsixMinifest(reader!) as any));

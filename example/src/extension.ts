@@ -1,19 +1,19 @@
-import { ExtensionContext, workspace } from "vscode";
+import { type ExtensionContext, workspace } from "vscode";
 import * as vscode from "vscode";
 
 import * as os from "node:os";
 
 import {
   LanguageClient,
-  LanguageClientOptions,
-  ServerOptions,
+  type LanguageClientOptions,
+  type ServerOptions,
 } from "vscode-languageclient/node";
 import { get } from "./config.ts";
 import {
   CMakeDebugAdapterDescriptorFactory,
   getDebuggerPipeName,
 } from "./debug.ts";
-import { SourceFileNode } from "./outlines.ts";
+import type { SourceFileNode } from "./outlines.ts";
 import { installLatestNeocmakeLsp } from "./install.ts";
 let client: LanguageClient | undefined;
 
