@@ -61,7 +61,7 @@ Deno.test(async function XmlVsixMinifestTest() {
   const reader = await projectDirReader(
     new URL("file://" + resolve("./example/")),
   );
-  
+
   // deno-lint-ignore no-explicit-any
   assertEquals(data, xml.stringify(genXmlvsixMinifest(reader!) as any));
 });
