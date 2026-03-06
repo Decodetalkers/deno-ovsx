@@ -1,6 +1,7 @@
 import * as path from "@std/path";
 
 import { exists } from "@std/fs";
+import { warn } from "@std/log";
 
 const PACKAGE_JSON_NAME = "vscode_package.json";
 const README = "README.md";
@@ -21,6 +22,7 @@ export interface JsonInfo {
   version: string;
   publisher: string;
   icon: string | undefined;
+  changelog: string;
   categories: string[] | undefined;
   url: {
     "type": string;
@@ -37,7 +39,10 @@ export async function projectDirReader(
   dir_path: URL,
 ): Promise<JsonInfo | undefined> {
   const json_path = path.join(dir_path.pathname, PACKAGE_JSON_NAME);
-  const info = await packageJsonReader(new URL("file://" + json_path));
+  const info = await packageJsonReader(
+    dir_path,
+    new URL("file://" + json_path),
+  );
   if (!info) {
     return info;
   }
@@ -55,19 +60,34 @@ export async function projectDirReader(
   return info;
 }
 
-export async function packageJsonReader(
-  path: URL,
+async function packageJsonReader(
+  dir_path: URL,
+  json_path: URL,
 ): Promise<JsonInfo | undefined> {
-  const response = await fetch(path);
+  let changelog: ChangeLog;
+  if (await exists(path.join(dir_path, "CHANGELOG.md"))) {
+    changelog = "extension/CHANGELOG.md";
+  } else if (await exists(path.join(dir_path, "changelog.md"))) {
+    changelog = "extension/changelog.md";
+  } else {
+    warn("We need a changelog");
+    return;
+  }
+  const response = await fetch(json_path);
   if (!response.ok) {
     return undefined;
   }
   const data = await response.json();
-  return packageMainData(data);
+  return packageMainData(data, changelog);
 }
 
-// deno-lint-ignore no-explicit-any
-export function packageMainData(data: any): JsonInfo | undefined {
+type ChangeLog = "extension/CHANGELOG.md" | "extension/changelog.md";
+
+function packageMainData(
+  // deno-lint-ignore no-explicit-any
+  data: any,
+  changelog: ChangeLog,
+): JsonInfo | undefined {
   const name = data["name"] as string;
   const description = data["description"] as string;
   const author = data["author"] as string;
@@ -97,6 +117,7 @@ export function packageMainData(data: any): JsonInfo | undefined {
     version,
     publisher,
     icon,
+    changelog,
     categories,
     url,
     engine,

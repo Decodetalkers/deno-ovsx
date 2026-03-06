@@ -1,9 +1,9 @@
 {
-  "name": "neocmakelsp-vscode",
+  "name": "my-vscode-test",
   "description": "vscode extension for neocmakelsp",
   "author": "Decodetalkers",
   "license": "MIT",
-  "version": "0.0.28",
+  "version": "0.0.1",
   "publisher": "Decodetalkers",
   "icon": "icon.png",
   "categories": [

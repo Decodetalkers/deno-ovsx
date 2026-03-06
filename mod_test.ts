@@ -27,8 +27,8 @@ Deno.test(async function XmlVsixMinifestTest() {
   const data = `<?xml version="1.0" encoding="UTF-8"?>
 <PackageManifest version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Language="en-US" Id="neocmakelsp-vscode" Version="0.0.28" Publisher="Decodetalkers"/>
-    <DisplayName>neocmakelsp-vscode</DisplayName>
+    <Identity Language="en-US" Id="my-vscode-test" Version="0.0.1" Publisher="Decodetalkers"/>
+    <DisplayName>my-vscode-test</DisplayName>
     <Description xml:space="preserve">vscode extension for neocmakelsp</Description>
     <Tags>cmake,cmake-cache</Tags>
     <Categories>Programming Languages,Linters,Formatters,Debuggers</Categories>
@@ -42,7 +42,7 @@ Deno.test(async function XmlVsixMinifestTest() {
       <Property Id="Microsoft.VisualStudio.Services.Links.GetStart" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Github" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
     </Properties>
     <License>extension/LICENSE</License>
     <Icon>extension/icon.png</Icon>
@@ -55,11 +55,13 @@ Deno.test(async function XmlVsixMinifestTest() {
     <Assert Type="Microsoft.VisualStudio.Services.Icons.Default" Path="extension/icon.png" Addressable="true"/>
     <Assert Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE" Addressable="true"/>
     <Assert Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/README.txt" Addressable="true"/>
+    <Assert Type="Microsoft.VisualStudio.Services.Content.Changelog" Path="extension/CHANGELOG.md" Addressable="true"/>
   </Asserts>
 </PackageManifest>`;
   const reader = await projectDirReader(
     new URL("file://" + resolve("./example/")),
   );
+  
   // deno-lint-ignore no-explicit-any
   assertEquals(data, xml.stringify(genXmlvsixMinifest(reader!) as any));
 });

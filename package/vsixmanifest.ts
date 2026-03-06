@@ -13,6 +13,7 @@ export function genXmlvsixMinifest(
     tags,
     contains_readme,
     contains_license,
+    changelog,
   }: JsonInfo,
 ): XMlVisxManifest {
   const identifier = new Identify(name, version, publisher);
@@ -36,7 +37,7 @@ export function genXmlvsixMinifest(
     properties.push(new PropertyLinksGetStart(link));
     properties.push(new PropertyLinksGithub(link));
     properties.push(new PropertyLinksSupport(link));
-    properties.push(new PropertyLinksLearn(link));
+    properties.push(new PropertyLinksLearn(url.url));
   }
   metadata.set_properties(properties);
   metadata.set_categrates(categories || []);
@@ -50,6 +51,7 @@ export function genXmlvsixMinifest(
   if (contains_readme) {
     asserts.push(new AssertDetails("extension/README.txt", true));
   }
+  asserts.push(new AssertChangelog(changelog, true));
   const minifest = new PackageManifest(metadata);
   minifest.set_asserts(asserts);
   return new XMlVisxManifest(minifest);
@@ -204,6 +206,18 @@ export interface Assert {
 
 export class AssertManifest implements Assert {
   readonly "@Type": string = "Microsoft.VisualStudio.Code.Manifest";
+  "@Path": string;
+  "@Addressable": boolean;
+
+  constructor(path: string, addressable: boolean) {
+    this["@Path"] = path;
+    this["@Addressable"] = addressable;
+  }
+}
+
+export class AssertChangelog implements Assert {
+  readonly "@Type": string =
+    "Microsoft.VisualStudio.Services.Content.Changelog";
   "@Path": string;
   "@Addressable": boolean;
 

@@ -50,8 +50,4 @@ export {
 
 export type { JsonInfo } from "./package/json_reader.ts";
 
-export {
-  packageJsonReader,
-  packageMainData,
-  projectDirReader,
-} from "./package/json_reader.ts";
+export { projectDirReader } from "./package/json_reader.ts";
