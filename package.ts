@@ -10,13 +10,13 @@ import {
 import type { Entry } from "@zip-js/zip-js";
 import * as path from "@std/path";
 
-import { walk } from "@std/fs";
+import { exists, walk } from "@std/fs";
 import * as xml from "@libs/xml";
 import { XMLContentTypesDefault } from "./package/content_types.ts";
 import { type JsonInfo, projectDirReader } from "./package/json_reader.ts";
 import { genXmlvsixMinifest } from "./package/vsixmanifest.ts";
 import { build_extension } from "./package/esbuild.ts";
-
+import * as parser from "@cfa/gitignore-parser";
 import { warn } from "@std/log";
 const excludeDirs = [
   /\/src$/,
@@ -29,6 +29,7 @@ const excludeDirs = [
   /.git/,
 ];
 
+const DECODE = new TextDecoder("utf-8");
 const CONTENT_TYPES_FILE = "[Content_Types].xml";
 
 const VSIX_MANIFEST = "extension.vsixmanifest";
@@ -77,7 +78,7 @@ async function packageVSIX(
 
   zipWriter.add(VSIX_MANIFEST, xmlVisxReader);
 
-  await walkFileFilited(dir_entry, zipWriter);
+  await walkFileFilited(dir_entry, dir_info.main, zipWriter);
 
   zipWriter.close();
 
@@ -93,7 +94,19 @@ async function packageVSIX(
   return { fileName, entries };
 }
 
-async function walkFileFilited(dir: string, zipWriter: ZipWriter<Blob>) {
+async function walkFileFilited(
+  dir: string,
+  main: string,
+  zipWriter: ZipWriter<Blob>,
+) {
+  const normal_main = path.normalize(main);
+  let ignore_parser = undefined;
+  const vscode_gitignore = path.join(dir, ".vscodeignore");
+  if (await exists(vscode_gitignore)) {
+    const data = await Deno.readFile(vscode_gitignore);
+
+    ignore_parser = parser.compile(DECODE.decode(data));
+  }
   for await (
     const entry of walk(dir, { includeDirs: true, skip: excludeDirs })
   ) {
@@ -102,6 +115,12 @@ async function walkFileFilited(dir: string, zipWriter: ZipWriter<Blob>) {
       const data = await Deno.readFile(entry.path);
       const fileReader = new Uint8ArrayReader(data);
 
+      if (
+        ignore_parser && ignore_parser.denies(filepath) &&
+        path.normalize(filepath) != normal_main
+      ) {
+        continue;
+      }
       if (entry.name == "vscode_package.json") {
         await zipWriter.add("extension/package.json", fileReader);
       } else if (entry.name == "README.md") {

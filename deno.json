@@ -1,6 +1,6 @@
 {
   "name": "@nobody/deno-ovsx",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "exports": {
     ".": "./mod.ts",
     "./bin": "./bin.ts"
@@ -10,6 +10,7 @@
     "unit_test": "deno test -A"
   },
   "imports": {
+    "@cfa/gitignore-parser": "jsr:@cfa/gitignore-parser@^0.1.4",
     "@deno/esbuild-plugin": "jsr:@deno/esbuild-plugin@^1.2.1",
     "@libs/xml": "jsr:@libs/xml@^7.0.3",
     "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",

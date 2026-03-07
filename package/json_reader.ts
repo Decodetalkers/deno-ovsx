@@ -11,7 +11,7 @@ interface Languages {
   id: string;
   extensions?: string[];
   filenames?: string[];
-  alias?: string[];
+  aliases?: string[];
 }
 
 export interface JsonInfo {
@@ -107,13 +107,27 @@ function packageMainData(
   const engine = data["engines"]["vscode"] as string;
   const main = data["main"] as string;
 
-  let tags: string[] = [];
+  const tags: string[] = [];
+  if (
+    data["contributes"] !== undefined &&
+    data["contributes"]["debuggers"] !== undefined
+  ) {
+    tags.push("debuggers");
+  }
   if (
     data["contributes"] !== undefined &&
     data["contributes"]["languages"] !== undefined
   ) {
     const lg = data["contributes"]["languages"] as Languages[];
-    tags = Array.from(lg, (l) => l.id);
+    for (const l of lg) {
+      tags.push(l.id);
+      if (!l.aliases) {
+        continue;
+      }
+      for (const alias of l.aliases) {
+        tags.push(alias);
+      }
+    }
   }
   return {
     name,

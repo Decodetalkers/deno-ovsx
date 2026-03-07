@@ -30,7 +30,7 @@ Deno.test(async function XmlVsixMinifestTest() {
     <Identity Language="en-US" Id="my-vscode-test" Version="0.0.1" Publisher="Decodetalkers"/>
     <DisplayName>my-vscode-test</DisplayName>
     <Description xml:space="preserve">vscode extension for neocmakelsp</Description>
-    <Tags>cmake,cmake-cache</Tags>
+    <Tags>debuggers,cmake,CMake,cmake-cache,CMake Cache</Tags>
     <Categories>Programming Languages,Linters,Formatters,Debuggers</Categories>
     <GalleryFlags>Public</GalleryFlags>
     <Properties>
