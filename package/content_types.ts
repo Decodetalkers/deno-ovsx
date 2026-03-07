@@ -50,7 +50,6 @@ export const DefaultExtensions = [
   MdExtension,
   TextExtension,
   TmExtension,
-  JsonExtension,
   YmlExtension,
 ];
 

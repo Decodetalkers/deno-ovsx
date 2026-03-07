@@ -16,7 +16,6 @@ Deno.test(function xmlcontentTest() {
   <Default Extension=".md" ContentType="text/markdown"/>
   <Default Extension=".txt" ContentType="text/plain"/>
   <Default Extension=".tmlanguage" ContentType="application/octet-stream"/>
-  <Default Extension=".json" ContentType="application/json"/>
   <Default Extension=".yml" ContentType="text/yaml"/>
 </Types>`;
   // deno-lint-ignore no-explicit-any

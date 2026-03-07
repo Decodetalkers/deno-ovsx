@@ -1,6 +1,6 @@
 {
   "name": "@nobody/deno-ovsx",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "exports": {
     ".": "./mod.ts",
     "./bin": "./bin.ts"
