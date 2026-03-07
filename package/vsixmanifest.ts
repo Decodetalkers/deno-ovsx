@@ -34,24 +34,24 @@ export function genXmlvsixMinifest(
   if (url && url.type == "git") {
     const link = url.url + ".git";
     properties.push(new PropertyLinksSource(link));
-    properties.push(new PropertyLinksGetStart(link));
+    properties.push(new PropertyLinksGetStart(url.url));
     properties.push(new PropertyLinksGithub(link));
-    properties.push(new PropertyLinksSupport(link));
+    properties.push(new PropertyLinksSupport(url.url));
     properties.push(new PropertyLinksLearn(url.url));
   }
   metadata.set_properties(properties);
   metadata.set_categrates(categories || []);
-  const asserts = [new AssertManifest("extension/package.json", true)];
+  const asserts = [new AssetManifest("extension/package.json", true)];
   if (icon) {
-    asserts.push(new AssertIconDefault(`extension/${icon}`, true));
+    asserts.push(new AssetIconDefault(`extension/${icon}`, true));
   }
   if (contains_license) {
-    asserts.push(new AssertLicense("extension/LICENSE.txt", true));
+    asserts.push(new AssetLicense("extension/LICENSE.txt", true));
   }
   if (contains_readme) {
-    asserts.push(new AssertDetails("extension/readme.md", true));
+    asserts.push(new AssetDetails("extension/readme.md", true));
   }
-  asserts.push(new AssertChangelog(changelog, true));
+  asserts.push(new AssetChangelog(changelog, true));
   const minifest = new PackageManifest(metadata);
   minifest.set_asserts(asserts);
   return new XMlVisxManifest(minifest);
@@ -59,7 +59,7 @@ export function genXmlvsixMinifest(
 
 export class XMlVisxManifest {
   readonly "@version": string = "1.0";
-  readonly "@encoding": string = "UTF-8";
+  readonly "@encoding": string = "utf-8";
   PackageManifest: PackageManifest;
   constructor(manifest: PackageManifest) {
     this.PackageManifest = manifest;
@@ -198,13 +198,13 @@ export const InstallationTargetDefault: InstallationTarget = {
   "@Id": "Microsoft.VisualStudio.Code",
 };
 
-export interface Assert {
+export interface Asset {
   "@Type": string;
   "@Path": string;
   "@Addressable": boolean;
 }
 
-export class AssertManifest implements Assert {
+export class AssetManifest implements Asset {
   readonly "@Type": string = "Microsoft.VisualStudio.Code.Manifest";
   "@Path": string;
   "@Addressable": boolean;
@@ -215,7 +215,7 @@ export class AssertManifest implements Assert {
   }
 }
 
-export class AssertChangelog implements Assert {
+export class AssetChangelog implements Asset {
   readonly "@Type": string =
     "Microsoft.VisualStudio.Services.Content.Changelog";
   "@Path": string;
@@ -227,26 +227,26 @@ export class AssertChangelog implements Assert {
   }
 }
 
-export function AssertTemplate(tp: string): typeof AssertManifest {
-  return class extends AssertManifest {
+export function AssetTemplate(tp: string): typeof AssetManifest {
+  return class extends AssetManifest {
     override readonly "@Type": string = tp;
   };
 }
 
-export const AssertDetails: typeof AssertManifest = AssertTemplate(
+export const AssetDetails: typeof AssetManifest = AssetTemplate(
   "Microsoft.VisualStudio.Services.Content.Details",
 );
 
-export const AssertLicense: typeof AssertManifest = AssertTemplate(
+export const AssetLicense: typeof AssetManifest = AssetTemplate(
   "Microsoft.VisualStudio.Services.Content.License",
 );
 
-export const AssertIconDefault: typeof AssertManifest = AssertTemplate(
+export const AssetIconDefault: typeof AssetManifest = AssetTemplate(
   "Microsoft.VisualStudio.Services.Icons.Default",
 );
 
 export class PackageManifest {
-  readonly "@version": string = "2.0.0";
+  readonly "@Version": string = "2.0.0";
   readonly "@xmlns": string =
     "http://schemas.microsoft.com/developer/vsx-schema/2011";
   readonly "@xmlns:d": string =
@@ -258,13 +258,13 @@ export class PackageManifest {
       InstallationTargetDefault,
     ],
   };
-  Asserts: {
-    Assert: Assert[];
-  } = { Assert: [] };
+  Assets: {
+    Asset: Asset[];
+  } = { Asset: [] };
   constructor(metaData: Metadata) {
     this["Metadata"] = metaData;
   }
-  set_asserts(asserts: Assert[]) {
-    this.Asserts.Assert = asserts;
+  set_asserts(asserts: Asset[]) {
+    this.Assets.Asset = asserts;
   }
 }

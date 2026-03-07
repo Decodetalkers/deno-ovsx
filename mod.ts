@@ -3,11 +3,11 @@ export { createVSIX } from "./package.ts";
 export type { PackageInfo } from "./package.ts";
 
 export {
-  AssertDetails,
-  AssertIconDefault,
-  AssertLicense,
-  AssertManifest,
-  AssertTemplate,
+  AssetDetails as AssertDetails,
+  AssetIconDefault as AssertIconDefault,
+  AssetLicense as AssertLicense,
+  AssetManifest as AssertManifest,
+  AssetTemplate as AssertTemplate,
   genXmlvsixMinifest,
   Identify,
   PackageManifest,
@@ -25,7 +25,7 @@ export {
 } from "./package/vsixmanifest.ts";
 
 export type {
-  Assert,
+  Asset as Assert,
   InstallationTargetDefault,
   PropertyInterface,
 } from "./package/vsixmanifest.ts";

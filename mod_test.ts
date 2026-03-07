@@ -24,7 +24,7 @@ Deno.test(function xmlcontentTest() {
 
 Deno.test(async function XmlVsixMinifestTest() {
   const data = `<?xml version="1.0" encoding="UTF-8"?>
-<PackageManifest version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
     <Identity Language="en-US" Id="my-vscode-test" Version="0.0.1" Publisher="Decodetalkers"/>
     <DisplayName>my-vscode-test</DisplayName>
@@ -49,13 +49,13 @@ Deno.test(async function XmlVsixMinifestTest() {
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Code"/>
   </Installation>
-  <Asserts>
-    <Assert Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>
-    <Assert Type="Microsoft.VisualStudio.Services.Icons.Default" Path="extension/icon.png" Addressable="true"/>
-    <Assert Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE.txt" Addressable="true"/>
-    <Assert Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/readme.md" Addressable="true"/>
-    <Assert Type="Microsoft.VisualStudio.Services.Content.Changelog" Path="extension/changelog.md" Addressable="true"/>
-  </Asserts>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>
+    <Asset Type="Microsoft.VisualStudio.Services.Icons.Default" Path="extension/icon.png" Addressable="true"/>
+    <Asset Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE.txt" Addressable="true"/>
+    <Asset Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/readme.md" Addressable="true"/>
+    <Asset Type="Microsoft.VisualStudio.Services.Content.Changelog" Path="extension/changelog.md" Addressable="true"/>
+  </Assets>
 </PackageManifest>`;
   const reader = await projectDirReader(
     new URL("file://" + resolve("./example/")),

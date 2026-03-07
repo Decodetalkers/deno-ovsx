@@ -105,6 +105,7 @@ if (results?.publishVscode) {
       pat: token,
     });
   } catch (e) {
+    console.log(e);
     // deno-lint-ignore no-explicit-any
     const message = (e as any).message as string;
     const errorHandler = handleError(results.debug, message, false);
