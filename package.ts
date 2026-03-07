@@ -27,6 +27,7 @@ const excludeDirs = [
   /deno.lock/,
   /.*\.vsix/,
   /.git/,
+  /.vscodeignore/,
 ];
 
 const DECODE = new TextDecoder("utf-8");
