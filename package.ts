@@ -98,17 +98,17 @@ async function rewriteReadme(
     return;
   }
   const urlReplace = (
-    _: string,
+    origin: string,
     isImage: string,
     title: string,
     link: string,
   ) => {
     if (/^mailto:/i.test(link)) {
-      return `${isImage}[${title}](${link})`;
+      return origin;
     }
 
     if (isImage == "") {
-      return `${isImage}[${title}](${link})`;
+      return origin;
     }
 
     title = title.replace(LINK_REGEX, urlReplace);
