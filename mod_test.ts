@@ -11,7 +11,7 @@ Deno.test(function xmlcontentTest() {
   const data = `<?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
   <Default Extension=".json" ContentType="application/json"/>
-  <Default Extension=".visxmanifest" ContentType="text/json"/>
+  <Default Extension=".vsixmanifest" ContentType="text/xml"/>
   <Default Extension=".png" ContentType="image/png"/>
   <Default Extension=".md" ContentType="text/markdown"/>
   <Default Extension=".txt" ContentType="text/plain"/>
@@ -26,7 +26,7 @@ Deno.test(async function XmlVsixMinifestTest() {
   const data = `<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Language="en-US" Id="my-vscode-test" Version="0.0.1" Publisher="Decodetalkers"/>
+    <Identity Language="en-US" Id="my-vscode-test" Version="0.0.4" Publisher="Decodetalkers"/>
     <DisplayName>my-vscode-test</DisplayName>
     <Description xml:space="preserve">vscode extension for neocmakelsp</Description>
     <Tags>debuggers,cmake,CMake,cmake-cache,CMake Cache</Tags>
@@ -38,8 +38,8 @@ Deno.test(async function XmlVsixMinifestTest() {
       <Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="workspace"/>
       <Property Id="Microsoft.VisualStudio.Code.LocalizedLanguages" Value=""/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.GetStart" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Github" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Getstarted" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.GitHub" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
     </Properties>

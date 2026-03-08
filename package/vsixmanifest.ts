@@ -34,7 +34,7 @@ export function genXmlvsixMinifest(
   if (url && url.type == "git") {
     const link = url.url + ".git";
     properties.push(new PropertyLinksSource(link));
-    properties.push(new PropertyLinksGetStart(url.url));
+    properties.push(new PropertyLinksGetstarted(url.url));
     properties.push(new PropertyLinksGithub(link));
     properties.push(new PropertyLinksSupport(url.url));
     properties.push(new PropertyLinksLearn(url.url));
@@ -109,14 +109,14 @@ export const PropertyLinksSource: typeof PropertyExtensionPack =
     "Microsoft.VisualStudio.Services.Links.Source",
   );
 
-export const PropertyLinksGetStart: typeof PropertyExtensionPack =
+export const PropertyLinksGetstarted: typeof PropertyExtensionPack =
   PropertyTemplate(
-    "Microsoft.VisualStudio.Services.Links.GetStart",
+    "Microsoft.VisualStudio.Services.Links.Getstarted",
   );
 
 export const PropertyLinksGithub: typeof PropertyExtensionPack =
   PropertyTemplate(
-    "Microsoft.VisualStudio.Services.Links.Github",
+    "Microsoft.VisualStudio.Services.Links.GitHub",
   );
 
 export const PropertyLinksSupport: typeof PropertyExtensionPack =

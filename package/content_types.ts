@@ -9,8 +9,8 @@ export const JsonExtension: DefaultExtension = {
 };
 
 export const VisxManifestExtension: DefaultExtension = {
-  "@Extension": ".visxmanifest",
-  "@ContentType": "text/json",
+  "@Extension": ".vsixmanifest",
+  "@ContentType": "text/xml",
 };
 
 export const PngExtension: DefaultExtension = {

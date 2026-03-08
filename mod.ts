@@ -15,7 +15,7 @@ export {
   PropertyExtensionDependencies,
   PropertyExtensionKind,
   PropertyExtensionPack,
-  PropertyLinksGetStart,
+  PropertyLinksGetstarted as PropertyLinksGetStart,
   PropertyLinksGithub,
   PropertyLinksLearn,
   PropertyLinksSource,
