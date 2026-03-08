@@ -107,6 +107,14 @@ async function rewriteReadme(
       return origin;
     }
 
+    if (/^http:/i.test(link)) {
+      return origin;
+    }
+
+    if (/^https:/i.test(link)) {
+      return origin;
+    }
+
     if (isImage == "") {
       return origin;
     }
