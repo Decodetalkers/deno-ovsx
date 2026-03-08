@@ -43,7 +43,7 @@ export const YmlExtension: MimeExtension = {
   "@ContentType": "text/yaml",
 };
 
-export const defaultMimetypes = new Map<string, string>([
+export const defaultMimetypes: Map<string, string> = new Map<string, string>([
   [".json", "application/json"],
   [".vsixmanifest", "text/xml"],
   [".tmlanguage", "application/octet-stream"],

@@ -3,19 +3,21 @@ export { createVSIX } from "./package.ts";
 export type { PackageInfo } from "./package.ts";
 
 export {
-  AssetDetails as AssertDetails,
-  AssetIconDefault as AssertIconDefault,
-  AssetLicense as AssertLicense,
-  AssetManifest as AssertManifest,
-  AssetTemplate as AssertTemplate,
+  AssetDetails,
+  AssetIconDefault,
+  AssetLicense,
+  AssetManifest,
+  AssetTemplate,
   genXmlvsixMinifest,
   Identify,
   PackageManifest,
   PropertyEngine,
   PropertyExtensionDependencies,
   PropertyExtensionKind,
+  PropertyExtensionMarkdown,
   PropertyExtensionPack,
-  PropertyLinksGetstarted as PropertyLinksGetStart,
+  PropertyExtensionPricing,
+  PropertyLinksGetstarted,
   PropertyLinksGithub,
   PropertyLinksLearn,
   PropertyLinksSource,
@@ -30,12 +32,10 @@ export type {
   PropertyInterface,
 } from "./package/vsixmanifest.ts";
 
-export type {
-  DefaultExtensions,
-  XMLContentTypesInterface,
-} from "./package/content_types.ts";
+export type { XMLContentTypesInterface } from "./package/content_types.ts";
 
 export {
+  defaultMimetypes,
   JsExtension,
   JsonExtension,
   MdExtension,

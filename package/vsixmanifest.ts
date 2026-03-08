@@ -1,5 +1,5 @@
 import type { JsonInfo } from "./json_reader.ts";
-
+import { escape } from "./utils.ts";
 export function genXmlvsixMinifest(
   {
     name,
@@ -14,6 +14,8 @@ export function genXmlvsixMinifest(
     contains_readme,
     contains_license,
     changelog,
+    pricing,
+    githubMarkdown,
   }: JsonInfo,
 ): XMlVisxManifest {
   const identifier = new Identify(name, version, publisher);
@@ -30,15 +32,33 @@ export function genXmlvsixMinifest(
     new PropertyExtensionPack(),
     new PropertyExtensionKind("workspace"),
     new PropertyLocalizedLanguages(),
+    new PropertyExtensionPricing(pricing),
+    new PropertyExtensionMarkdown(escape(githubMarkdown)),
   ];
-  if (url && url.type == "git") {
-    const link = url.url + ".git";
-    properties.push(new PropertyLinksSource(link));
-    properties.push(new PropertyLinksGetstarted(url.url));
-    properties.push(new PropertyLinksGithub(link));
-    properties.push(new PropertyLinksSupport(url.url));
-    properties.push(new PropertyLinksLearn(url.url));
+
+  if (url) {
+    let remote_url = "";
+    let link = "";
+    if (typeof url == "string") {
+      link = url;
+      remote_url = url;
+    } else if (url.url) {
+      link = url.url;
+      remote_url = url.url;
+      if (url.type == "git") {
+        link = link + ".git";
+      }
+    }
+
+    if (remote_url != "") {
+      properties.push(new PropertyLinksSource(link));
+      properties.push(new PropertyLinksGetstarted(remote_url));
+      properties.push(new PropertyLinksGithub(link));
+      properties.push(new PropertyLinksSupport(remote_url));
+      properties.push(new PropertyLinksLearn(remote_url));
+    }
   }
+
   metadata.set_properties(properties);
   metadata.set_categrates(categories || []);
   const asserts = [new AssetManifest("extension/package.json", true)];
@@ -78,7 +98,22 @@ export class PropertyExtensionPack implements PropertyInterface {
     this["@Value"] = value;
   }
 }
+export class PropertyExtensionPricing implements PropertyInterface {
+  readonly "@Id": string = "Microsoft.VisualStudio.Services.Content.Pricing";
+  "@Value": string = "";
+  constructor(value: string) {
+    this["@Value"] = value;
+  }
+}
 
+export class PropertyExtensionMarkdown implements PropertyInterface {
+  readonly "@Id": string =
+    "Microsoft.VisualStudio.Services.GitHubFlavoredMarkdown";
+  "@Value": string = "";
+  constructor(value: string) {
+    this["@Value"] = value;
+  }
+}
 function PropertyTemplate(id: string): typeof PropertyExtensionPack {
   return class extends PropertyExtensionPack {
     override "@Id" = id;

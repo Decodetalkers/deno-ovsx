@@ -132,7 +132,7 @@ async function walkFileFilited(
       }
       const ext = path.extname(filepath);
       if (ext != "") {
-        const content_type = contentType(ext)?.split(";")[0];
+        const content_type = contentType(ext);
         if (content_type) {
           mime_types.set(ext, content_type);
         }
