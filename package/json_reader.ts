@@ -2,6 +2,7 @@ import * as path from "@std/path";
 
 import { exists } from "@std/fs";
 import { warn } from "@std/log";
+import { escape } from "./utils.ts";
 
 const PACKAGE_JSON_NAME = "vscode_package.json";
 const READMES = ["README.md", "readme.md"];
@@ -120,12 +121,12 @@ function packageMainData(
   ) {
     const lg = data["contributes"]["languages"] as Languages[];
     for (const l of lg) {
-      tags.push(l.id);
+      tags.push(escape(l.id));
       if (!l.aliases) {
         continue;
       }
       for (const alias of l.aliases) {
-        tags.push(alias);
+        tags.push(escape(alias));
       }
     }
   }

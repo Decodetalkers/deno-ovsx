@@ -1,44 +1,44 @@
-export interface DefaultExtension {
+export interface MimeExtension {
   "@Extension": string;
   "@ContentType": string;
 }
 
-export const JsonExtension: DefaultExtension = {
+export const JsonExtension: MimeExtension = {
   "@Extension": ".json",
   "@ContentType": "application/json",
 };
 
-export const VisxManifestExtension: DefaultExtension = {
+export const VisxManifestExtension: MimeExtension = {
   "@Extension": ".vsixmanifest",
   "@ContentType": "text/xml",
 };
 
-export const PngExtension: DefaultExtension = {
+export const PngExtension: MimeExtension = {
   "@Extension": ".png",
   "@ContentType": "image/png",
 };
 
-export const MdExtension: DefaultExtension = {
+export const MdExtension: MimeExtension = {
   "@Extension": ".md",
   "@ContentType": "text/markdown",
 };
 
-export const TextExtension: DefaultExtension = {
+export const TextExtension: MimeExtension = {
   "@Extension": ".txt",
   "@ContentType": "text/plain",
 };
 
-export const TmExtension: DefaultExtension = {
+export const TmExtension: MimeExtension = {
   "@Extension": ".tmlanguage",
   "@ContentType": "application/octet-stream",
 };
 
-export const JsExtension: DefaultExtension = {
+export const JsExtension: MimeExtension = {
   "@Extension": ".js",
   "@ContentType": "application/javascript",
 };
 
-export const YmlExtension: DefaultExtension = {
+export const YmlExtension: MimeExtension = {
   "@Extension": ".yml",
   "@ContentType": "text/yaml",
 };
@@ -58,7 +58,7 @@ export interface XMLContentTypesInterface {
   readonly "@encoding": string;
   "Types": {
     "@xmlns": string;
-    Default: DefaultExtension[];
+    Default: MimeExtension[];
   };
 }
 
@@ -67,7 +67,7 @@ export class XMLContentTypes implements XMLContentTypesInterface {
   readonly "@encoding": string = "UTF-8";
   "Types": {
     "@xmlns": string;
-    Default: DefaultExtension[];
+    Default: MimeExtension[];
   } = {
     "@xmlns": "http://schemas.openxmlformats.org/package/2006/content-types",
     Default: DefaultExtensions,
