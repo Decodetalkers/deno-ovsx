@@ -70,8 +70,8 @@ Deno.test(async function XmlVsixMinifestTest() {
       <Property Id="Microsoft.VisualStudio.Services.Links.Source" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.Getstarted" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
       <Property Id="Microsoft.VisualStudio.Services.Links.GitHub" Value="https://github.com/neocmakelsp/neocmakelsp-vscode.git"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
-      <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/neocmakelsp/neocmakelsp-vscode"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Support" Value="https://github.com/neocmakelsp/neocmakelsp-vscode/issues"/>
+      <Property Id="Microsoft.VisualStudio.Services.Links.Learn" Value="https://github.com/neocmakelsp/neocmakelsp-vscode#readme"/>
     </Properties>
     <License>extension/LICENSE.txt</License>
     <Icon>extension/icon.png</Icon>

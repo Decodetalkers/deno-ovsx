@@ -54,8 +54,8 @@ export function genXmlvsixMinifest(
       properties.push(new PropertyLinksSource(link));
       properties.push(new PropertyLinksGetstarted(remote_url));
       properties.push(new PropertyLinksGithub(link));
-      properties.push(new PropertyLinksSupport(remote_url));
-      properties.push(new PropertyLinksLearn(remote_url));
+      properties.push(new PropertyLinksSupport(remote_url + "/issues"));
+      properties.push(new PropertyLinksLearn(remote_url + "#readme"));
     }
   }
 
