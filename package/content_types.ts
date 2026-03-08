@@ -43,15 +43,12 @@ export const YmlExtension: MimeExtension = {
   "@ContentType": "text/yaml",
 };
 
-export const DefaultExtensions = [
-  JsonExtension,
-  VisxManifestExtension,
-  PngExtension,
-  MdExtension,
-  TextExtension,
-  TmExtension,
-  YmlExtension,
-];
+export const defaultMimetypes = new Map<string, string>([
+  [".json", "application/json"],
+  [".vsixmanifest", "text/xml"],
+  [".tmlanguage", "application/octet-stream"],
+  [".txt", "text/plain"],
+]);
 
 export interface XMLContentTypesInterface {
   readonly "@version": string;
@@ -70,9 +67,11 @@ export class XMLContentTypes implements XMLContentTypesInterface {
     Default: MimeExtension[];
   } = {
     "@xmlns": "http://schemas.openxmlformats.org/package/2006/content-types",
-    Default: DefaultExtensions,
+    Default: [],
   };
+  push_ext(default_ext: MimeExtension) {
+    this.Types.Default.push(default_ext);
+  }
 }
 
-export const XMLContentTypesDefault: XMLContentTypesInterface =
-  new XMLContentTypes();
+export const XMLContentTypesDefault: XMLContentTypes = new XMLContentTypes();

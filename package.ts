@@ -18,6 +18,11 @@ import { genXmlvsixMinifest } from "./package/vsixmanifest.ts";
 import { build_extension } from "./package/esbuild.ts";
 import * as parser from "@cfa/gitignore-parser";
 import { warn } from "@std/log";
+import {
+  defaultMimetypes,
+  type XMLContentTypes,
+} from "./package/content_types.ts";
+import { contentType } from "@std/media-types";
 const excludeDirs = [
   /\/src$/,
   /\/node_modules$/,
@@ -64,12 +69,7 @@ async function packageVSIX(
     extendedTimestamp: false,
   });
 
-  // deno-lint-ignore no-explicit-any
-  const contentTypeData = xml.stringify(XMLContentTypesDefault as any);
-
-  const contentTypeReader = new TextReader(contentTypeData);
-
-  zipWriter.add(CONTENT_TYPES_FILE, contentTypeReader);
+  const xml_content_types = XMLContentTypesDefault;
 
   const fileName = `${dir_info.name}-${dir_info.version}.vsix`;
 
@@ -79,8 +79,14 @@ async function packageVSIX(
 
   zipWriter.add(VSIX_MANIFEST, xmlVisxReader);
 
-  await walkFileFilited(dir_entry, dir_info.main, zipWriter);
+  await walkFileFilited(dir_entry, dir_info.main, zipWriter, xml_content_types);
 
+  // deno-lint-ignore no-explicit-any
+  const contentTypeData = xml.stringify(xml_content_types as any);
+
+  const contentTypeReader = new TextReader(contentTypeData);
+
+  zipWriter.add(CONTENT_TYPES_FILE, contentTypeReader);
   zipWriter.close();
 
   const zipFileBlob: Blob = await zipFileWriter.getData();
@@ -99,6 +105,7 @@ async function walkFileFilited(
   dir: string,
   main: string,
   zipWriter: ZipWriter<Blob>,
+  xml_content_types: XMLContentTypes,
 ) {
   const normal_main = path.normalize(main);
   let ignore_parser = undefined;
@@ -108,6 +115,7 @@ async function walkFileFilited(
 
     ignore_parser = parser.compile(DECODE.decode(data));
   }
+  const mime_types = defaultMimetypes;
   for await (
     const entry of walk(dir, { includeDirs: true, skip: excludeDirs })
   ) {
@@ -122,6 +130,13 @@ async function walkFileFilited(
       ) {
         continue;
       }
+      const ext = path.extname(filepath);
+      if (ext != "") {
+        const content_type = contentType(ext)?.split(";")[0];
+        if (content_type) {
+          mime_types.set(ext, content_type);
+        }
+      }
       if (entry.name == "vscode_package.json") {
         await zipWriter.add("extension/package.json", fileReader);
       } else if (entry.name == "README.md") {
@@ -132,5 +147,11 @@ async function walkFileFilited(
         await zipWriter.add(`extension/${filepath}`, fileReader);
       }
     }
+  }
+  for (const [extension, contentType] of mime_types) {
+    xml_content_types.push_ext({
+      "@Extension": extension,
+      "@ContentType": contentType,
+    });
   }
 }
