@@ -33,12 +33,20 @@ const excludeDirs = [
   /.*\.vsix/,
   /.git/,
   /.vscodeignore/,
+  /readme.md/,
+  /README.md/,
 ];
 
 const DECODE = new TextDecoder("utf-8");
 const CONTENT_TYPES_FILE = "[Content_Types].xml";
 
 const VSIX_MANIFEST = "extension.vsixmanifest";
+
+const README = "readme.md";
+
+const LINK_REGEX = /(!?)\[([^\]\[]*|!\[[^\]\[]*]\([^\)]+\))\]\(([^\)]+)\)/g;
+
+const README_FILES = ["README.md", "readme.md"];
 
 export interface PackageInfo {
   fileName: string;
@@ -57,6 +65,62 @@ export async function createVSIX(
   }
   await build_extension(dir_entry, info);
   return await packageVSIX(dir_entry, info);
+}
+
+type Optional<T> = T | undefined;
+
+async function readReadme(dir_entry: string): Promise<Optional<string>> {
+  for (const readme of README_FILES) {
+    const readme_path = path.join(dir_entry, readme);
+    if (!await exists(readme_path)) {
+      continue;
+    }
+    const data = await Deno.readFile(readme_path);
+    return DECODE.decode(data);
+  }
+}
+
+async function rewriteReadme(
+  dir_entry: string,
+  dir_info: JsonInfo,
+): Promise<Optional<string>> {
+  const readme_content = await readReadme(dir_entry);
+  if (!readme_content) {
+    return;
+  }
+  let url = undefined;
+  if (typeof dir_info.url == "string") {
+    url = dir_info.url;
+  } else {
+    url = dir_info.url?.url;
+  }
+  if (!url) {
+    return;
+  }
+  const urlReplace = (
+    _: string,
+    isImage: string,
+    title: string,
+    link: string,
+  ) => {
+    if (/^mailto:/i.test(link)) {
+      return `${isImage}[${title}](${link})`;
+    }
+
+    if (isImage == "") {
+      return `${isImage}[${title}](${link})`;
+    }
+
+    title = title.replace(LINK_REGEX, urlReplace);
+    const prefix = path.join(url, "raw", "HEAD");
+
+    const result = `${isImage}[${title}](${
+      path.join(prefix, path.normalize(link))
+    })`;
+    return result;
+  };
+  const replace_content = readme_content.replace(LINK_REGEX, urlReplace);
+  return replace_content;
 }
 
 async function packageVSIX(
@@ -78,6 +142,12 @@ async function packageVSIX(
   const xmlVisxReader = new TextReader(xmlVisxData);
 
   zipWriter.add(VSIX_MANIFEST, xmlVisxReader);
+
+  const rewrite_content = await rewriteReadme(dir_entry, dir_info);
+  if (rewrite_content) {
+    const readme_data = new TextReader(rewrite_content);
+    zipWriter.add(path.join("extension", README), readme_data);
+  }
 
   await walkFileFilited(dir_entry, dir_info.main, zipWriter, xml_content_types);
 
@@ -139,8 +209,6 @@ async function walkFileFilited(
       }
       if (entry.name == "vscode_package.json") {
         await zipWriter.add("extension/package.json", fileReader);
-      } else if (entry.name == "README.md") {
-        await zipWriter.add("extension/readme.md", fileReader);
       } else if (entry.name == "LICENSE") {
         await zipWriter.add("extension/LICENSE.txt", fileReader);
       } else {

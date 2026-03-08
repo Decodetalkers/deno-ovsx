@@ -2,8 +2,46 @@ import file from "./deno.json" with { type: "json" };
 import { createVSIX } from "./mod.ts";
 import { clapCli, type Command } from "@nobody/deno-clap";
 import { publishOVSX, publishVscode } from "./publish.ts";
-
+import * as bgColor from "@std/fmt/colors";
 const version = file.version;
+
+enum LogMessageType {
+  DONE,
+  INFO,
+  WARNING,
+  ERROR,
+}
+const LogPrefix = {
+  [LogMessageType.DONE]: bgColor.bgBrightGreen(" DONE "),
+  [LogMessageType.INFO]: bgColor.bgBrightBlue(" INFO "),
+  [LogMessageType.WARNING]: bgColor.bgYellow(" WARNING "),
+  [LogMessageType.ERROR]: bgColor.bgRed(" ERROR "),
+};
+
+// deno-lint-ignore no-explicit-any
+function _log(type: LogMessageType, msg: any, ...args: any[]): void {
+  args = [LogPrefix[type], msg, ...args];
+
+  if (type === LogMessageType.WARNING) {
+    console.warn(...args);
+  } else if (type === LogMessageType.ERROR) {
+    console.error(...args);
+  } else {
+    console.log(...args);
+  }
+}
+
+export interface LogFn {
+  // deno-lint-ignore no-explicit-any
+  (msg: any, ...args: any[]): void;
+}
+
+export const log = {
+  done: _log.bind(null, LogMessageType.DONE) as LogFn,
+  info: _log.bind(null, LogMessageType.INFO) as LogFn,
+  warn: _log.bind(null, LogMessageType.WARNING) as LogFn,
+  error: _log.bind(null, LogMessageType.ERROR) as LogFn,
+};
 
 const OVSX = {
   publishVscode: {
@@ -66,16 +104,16 @@ export function handleError(
 ): (reason: any) => void {
   return (reason) => {
     if (reason instanceof Error && !debug) {
-      console.error(`\u274c  ${reason.message}`);
+      log.error(`\u274c  ${reason.message}`);
       if (additionalMessage) {
-        console.error(additionalMessage);
+        log.error(additionalMessage);
       }
     } else if (typeof reason === "string") {
-      console.error(`\u274c  ${reason}`);
+      log.error(`\u274c  ${reason}`);
     } else if (reason !== undefined) {
-      console.error(reason);
+      log.error(reason);
     } else {
-      console.error("An unknown error occurred.");
+      log.error("An unknown error occurred.");
     }
 
     if (exit) {
@@ -105,7 +143,6 @@ if (results?.publishVscode) {
       pat: token,
     });
   } catch (e) {
-    console.log(e);
     // deno-lint-ignore no-explicit-any
     const message = (e as any).message as string;
     const errorHandler = handleError(results.debug, message, false);
@@ -164,4 +201,8 @@ if (results?.build) {
   for (const entry of packageInfo.entries) {
     console.log(`   ${entry.filename}`);
   }
+
+  console.log();
+
+  log.done(`${packageInfo.fileName} build complete`);
 }
