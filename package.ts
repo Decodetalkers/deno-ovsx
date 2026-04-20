@@ -97,6 +97,10 @@ async function rewriteReadme(
   if (!url) {
     return;
   }
+  const url_link = new URL(url);
+  const protocol = url_link.protocol;
+  const hostname = url_link.hostname;
+  const pathname = url_link.pathname;
   const urlReplace = (
     origin: string,
     isImage: string,
@@ -120,11 +124,12 @@ async function rewriteReadme(
     }
 
     title = title.replace(LINK_REGEX, urlReplace);
-    const prefix = path.join(url, "raw", "HEAD");
+    const prefix = path.join(hostname, pathname, "raw", "HEAD");
 
     const result = `${isImage}[${title}](${
-      path.join(prefix, path.normalize(link))
+      protocol + "//" + path.join(prefix, path.normalize(link))
     })`;
+
     return result;
   };
   const replace_content = readme_content.replace(LINK_REGEX, urlReplace);
