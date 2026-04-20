@@ -46,8 +46,7 @@ Deno.test(function xmlcontentTest() {
       "@ContentType": content_type,
     });
   }
-  // deno-lint-ignore no-explicit-any
-  assertEquals(data, xml.stringify(XMLContentTypesDefault as any));
+  assertEquals(data, xml.stringify(XMLContentTypesDefault));
 });
 
 Deno.test(async function XmlVsixMinifestTest() {
@@ -91,6 +90,5 @@ Deno.test(async function XmlVsixMinifestTest() {
     new URL("file://" + resolve("./example/")),
   );
 
-  // deno-lint-ignore no-explicit-any
-  assertEquals(data, xml.stringify(genXmlvsixMinifest(reader!) as any));
+  assertEquals(data, xml.stringify(genXmlvsixMinifest(reader!)));
 });

@@ -84,6 +84,8 @@ export class XMlVisxManifest {
   constructor(manifest: PackageManifest) {
     this.PackageManifest = manifest;
   }
+  // NOTE: reserve place
+  [key: string]: unknown;
 }
 
 export interface PropertyInterface {

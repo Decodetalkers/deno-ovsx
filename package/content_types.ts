@@ -72,6 +72,8 @@ export class XMLContentTypes implements XMLContentTypesInterface {
   push_ext(default_ext: MimeExtension) {
     this.Types.Default.push(default_ext);
   }
+  // NOTE: reserve place
+  [key: string]: unknown;
 }
 
 export const XMLContentTypesDefault: XMLContentTypes = new XMLContentTypes();
